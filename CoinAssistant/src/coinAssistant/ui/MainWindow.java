@@ -2,7 +2,6 @@ package coinAssistant.ui;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
 
 public class MainWindow extends JFrame {
