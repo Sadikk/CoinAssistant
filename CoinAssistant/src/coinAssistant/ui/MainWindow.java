@@ -1,5 +1,6 @@
 package coinAssistant.ui;
 
+<<<<<<< HEAD
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -111,6 +112,10 @@ public static void main(String[] args) {
 	MainWindow mW = new MainWindow("CoinAssistant",1200,700);
 	}
 
+=======
+public class MainWindow {
+	
+>>>>>>> branch 'master' of https://github.com/Sadikk/CoinAssistant
 }
 
 
