@@ -9,7 +9,7 @@ import coinAssistant.core.*;
 public abstract class CSChartView {
 	static BufferedImage current;
 	static final int TAILLE_X=1000;
-	static final int TAILLE_Y=TAILLE_X/2;
+	static final int TAILLE_Y=TAILLE_X/2; 
 	
 	//variables pour le map des valeurs:
 	static int largDivX=0;
@@ -33,11 +33,11 @@ public abstract class CSChartView {
 		largDivX=TAILLE_X/data.size();
 		largCandle=(int)(largDivX*0.1);
 		//on cherche le min/max de la série pour définir l'echelle y
-		vMin=data.get(0).mini;
-		vMax=data.get(0).maxi;
+		vMin=data.get(0).getLow();
+		vMax=data.get(0).getHigh();
 		for(CandleStick candle:data) {
-			if(candle.mini<vMin) {vMin=candle.mini;}
-			if(candle.maxi>vMax) {vMax=candle.maxi;}
+			if(candle.getLow()<vMin) {vMin=candle.getLow();}
+			if(candle.getHigh()>vMax) {vMax=candle.getHigh();}
 		}
 		rapportY=(double)(TAILLE_Y)/(vMax-vMin);
 		System.out.println(rapportY);
@@ -49,26 +49,26 @@ public abstract class CSChartView {
 			//tracé de la ligne min-max
 			int abscisse=(int)((i+0.5)*largDivX);
 			g.setColor(Color.black);
-			g.drawLine(abscisse, TAILLE_Y-(int)((candle.mini-vMin)*rapportY), abscisse, TAILLE_Y-(int)((candle.maxi-vMin)*rapportY));
+			g.drawLine(abscisse, TAILLE_Y-(int)((candle.getLow()-vMin)*rapportY), abscisse, TAILLE_Y-(int)((candle.getHigh()-vMin)*rapportY));
 			//barre du haut
-			g.drawLine(abscisse-largCandle, TAILLE_Y-(int)((candle.maxi-vMin)*rapportY), abscisse+largCandle, TAILLE_Y-(int)((candle.maxi-vMin)*rapportY));
+			g.drawLine(abscisse-largCandle, TAILLE_Y-(int)((candle.getHigh()-vMin)*rapportY), abscisse+largCandle, TAILLE_Y-(int)((candle.getHigh()-vMin)*rapportY));
 			//barre du bas
-			g.drawLine(abscisse-largCandle, TAILLE_Y-(int)((candle.mini-vMin)*rapportY), abscisse+largCandle,TAILLE_Y-(int)((candle.mini-vMin)*rapportY));
+			g.drawLine(abscisse-largCandle, TAILLE_Y-(int)((candle.getLow()-vMin)*rapportY), abscisse+largCandle,TAILLE_Y-(int)((candle.getLow()-vMin)*rapportY));
 			
 			//tracé des boites
 			
 			//on regarde si motif croissant ou decroissant
 			double min=0;
 			double max=0;
-			if(candle.start>candle.end) {
+			if(candle.getOpen()>candle.getClose()) {
 				g.setColor(Color.green);
-				min=candle.end;
-				max=candle.start;
+				min=candle.getClose();
+				max=candle.getOpen();
 			}
 			else {
 				g.setColor(Color.red);
-				min=candle.start;
-				max=candle.end;
+				min=candle.getOpen();
+				max=candle.getClose();
 			}
 			
 			//boites
