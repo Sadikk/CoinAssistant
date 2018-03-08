@@ -5,7 +5,7 @@ public class CandleStick {
 
 	private double open;
 	private double close;
-	private double low;
+	private double low; 
 	private double high;
 	
 	public Pattern motif;
@@ -28,7 +28,12 @@ public class CandleStick {
 		//initialisation du pattern
 		motif=null;
 	}
-	
+	public CandleStick(double o,double c,double l,double h) {
+		this.open=o;
+		this.close=c;
+		this.low=l;
+		this.high=h;
+	}
 	
 	public double getOpen() {return this.open;}
 	public double getClose() {return this.close;}
@@ -39,5 +44,23 @@ public class CandleStick {
 		motif=p;
 	}
 	
+	//renvoie true si le candlestick est ascendant
+	public boolean isAscend() {
+		if(this.close>this.open) {return true;}
+		return false;
+	}
+	
+	//renvoie la taille du corps
+	public double tailleCorps() {
+		return Math.abs(open-close);
+	}
+	//renvoie le plus bas point {open;close}	
+	public double getMinCorps() {
+		return Math.min(open, close);
+	}
+	//renvoie le plus haut point {open;close}
+	public double getMaxCorps() {
+		return Math.max(open,close);
+	}
 	
 }

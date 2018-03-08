@@ -9,12 +9,11 @@ public class Harami extends Pattern{
 	
 	//identifie une sequence précise comme correspondante au pattern ou non
 	public boolean identifie(ArrayList<CandleStick> data, int rg) {
-		// deuxieme candlestick inclu dans le [open:close] du premier
-		double bas=Math.min(data.get(rg).getOpen(),data.get(rg).getClose());
-		double haut=Math.max(data.get(rg).getOpen(),data.get(rg).getClose());
-		
-		if(bas<data.get(rg+1).getLow() //inclusion du minimum
-		&& haut>data.get(rg+1).getHigh()) {//inclusion du maximum
+		CandleStick first=data.get(rg);
+		CandleStick second=data.get(rg+1);
+		// deuxieme candlestick inclu dans le [open:close] du premier	
+		if(first.getMinCorps()<second.getLow() //inclusion du minimum
+		&& first.getMaxCorps()>second.getHigh()) {//inclusion du maximum
 			return true;
 		}
 		
