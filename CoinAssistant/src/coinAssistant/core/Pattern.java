@@ -3,16 +3,32 @@ package coinAssistant.core;
 import java.util.ArrayList;
 
 public abstract class Pattern {
-	public void chercherPattern(ArrayList<CandleStick> data) {
-		for(int i=0;i<data.size()-getTaillePattern();i++) {
-			if(identifie(data,i)){
+	/**
+	 * Applique la reconnaissance de pattern sur une série de données
+	 * @param data 		séries de candlestick
+	 */
+	public void applyPattern(ArrayList<CandleStick> data) {
+		for(int i=0;i<data.size()-getPatternSize();i++) {
+			if(isPatternPresent(data,i)){
 				data.get(i).setPattern(this);
 			}
 		}
 	}
-	public abstract boolean identifie(ArrayList<CandleStick> data, int rang );
 	
-	public abstract int getTaillePattern();
+	/**
+	 * Vérifie si un pattern est présent à un certain rang dans une série de données
+	 * @param data 		séries de candlestick
+	 * @param data 		rang auquel vérifier
+	 * @return true si le pattern est présent, false sinon
+	 */
+	public abstract boolean isPatternPresent(ArrayList<CandleStick> data, int rang );
+	
+	
+	/**
+	 * Retourne la taille du pattern (en nombre de candlesticks)
+	 * @return taille du pattern
+	 */
+	public abstract int getPatternSize();
 	
 	
 	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/

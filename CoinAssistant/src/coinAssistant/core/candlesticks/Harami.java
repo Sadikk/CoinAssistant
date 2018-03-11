@@ -8,18 +8,15 @@ public class Harami extends Pattern{
 	public Harami() {}
 	
 	//identifie une sequence précise comme correspondante au pattern ou non
-	public boolean identifie(ArrayList<CandleStick> data, int rg) {
+	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		CandleStick first=data.get(rg);
 		CandleStick second=data.get(rg+1);
 		// deuxieme candlestick inclu dans le [open:close] du premier	
-		if(first.getMinCorps()<second.getLow() //inclusion du minimum
-		&& first.getMaxCorps()>second.getHigh()) {//inclusion du maximum
-			return true;
-		}
+		return(first.getMinBody()<second.getLow() //inclusion du minimum
+		&& first.getMaxBody()>second.getHigh()); {//inclusion du maximum
 		
-		return false;
 	}
 	
 	//retourne la taille de l'évenement considéré
-	public int getTaillePattern() {return taillePattern;}
+	public int getPatternSize() {return taillePattern;}
 }

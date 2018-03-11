@@ -9,7 +9,9 @@ public class CandleStick {
 	private double high;
 	
 	public Pattern motif;
-	
+	/** 
+	 * Class constructor with array data
+	*/
 	public CandleStick(ArrayList<Double>data) {
 		//parametres numériques depuis les données
 		this.open=data.get(0);
@@ -28,6 +30,9 @@ public class CandleStick {
 		//initialisation du pattern
 		motif=null;
 	}
+	/** 
+	 * Class constructor with filtered data
+	*/
 	public CandleStick(double o,double c,double l,double h) {
 		this.open=o;
 		this.close=c;
@@ -44,22 +49,34 @@ public class CandleStick {
 		motif=p;
 	}
 	
-	//renvoie true si le candlestick est ascendant
+	/**
+	 * Détermine si le candlestick est ascendant ou non
+	 * @return true si le candlestick est ascendant, false sinon
+	 */
 	public boolean isAscend() {
 		if(this.close>this.open) {return true;}
 		return false;
 	}
 	
-	//renvoie la taille du corps
-	public double tailleCorps() {
+	/**
+	 * Renvoie la taille du corps
+	 * @return taille du corps
+	 */
+	public double getBodySize() {
 		return Math.abs(open-close);
 	}
-	//renvoie le plus bas point {open;close}	
-	public double getMinCorps() {
+	/**
+	 * Renvoie le plus bas point {open;close}
+	 * @return valeur du plus bas point
+	 */
+	public double getMinBody() {
 		return Math.min(open, close);
 	}
-	//renvoie le plus haut point {open;close}
-	public double getMaxCorps() {
+	/**
+	 * Renvoie le plus haut point {open;close}
+	 * @return valeur du plus haut point
+	 */
+	public double getMaxBody() {
 		return Math.max(open,close);
 	}
 	

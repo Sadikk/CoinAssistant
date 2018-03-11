@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import coinAssistant.core.*;
 
-public abstract class CSChartView {
+public abstract class CandleStickChartView {
 	static BufferedImage current;
 	static final int TAILLE_X=1000;
 	static final int TAILLE_Y=TAILLE_X/2; 

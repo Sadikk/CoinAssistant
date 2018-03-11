@@ -17,6 +17,7 @@ public class BinanceConnector {
 		client = factory.newRestClient();
 	}
 	
+	//todo : replace neoeth by symbol once work done
 	public Collection<CandleStick> getCandlesticks(String symbol){
 		List<Candlestick> data = client.getCandlestickBars("NEOETH", CandlestickInterval.FIVE_MINUTES);
 		LinkedList<CandleStick> candle = new LinkedList<CandleStick>();
