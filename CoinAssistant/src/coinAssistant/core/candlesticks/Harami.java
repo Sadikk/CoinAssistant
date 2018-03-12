@@ -13,7 +13,7 @@ public class Harami extends Pattern{
 		CandleStick second=data.get(rg+1);
 		// deuxieme candlestick inclu dans le [open:close] du premier	
 		return(first.getMinBody()<second.getLow() //inclusion du minimum
-		&& first.getMaxBody()>second.getHigh()); {//inclusion du maximum
+		&& first.getMaxBody()>second.getHigh()); //inclusion du maximum
 		
 	}
 	

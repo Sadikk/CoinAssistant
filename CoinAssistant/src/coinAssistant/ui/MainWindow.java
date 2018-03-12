@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import coinAssistant.core.BinanceConnector;
+
 public class MainWindow extends JFrame {
 	private JPanel conteneur1;
     private JPanel conteneur2;
@@ -110,6 +112,8 @@ public class MainWindow extends JFrame {
 
 	public static void main(String[] args) { 
 		MainWindow mW = new MainWindow("CoinAssistant",1200,700);
+		BinanceConnector connector = new BinanceConnector();
+		System.out.println(connector.getCandlesticks(""));
 	}
 }
 

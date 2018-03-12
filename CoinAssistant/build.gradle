@@ -1,0 +1,35 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "coinAssistant.ui.MainWindow"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.9'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/']
+        }
+    }
+}
+
+
+jar {
+    baseName = 'coinAssistant'
+    version =  '0.1.0'
+	from {
+        (configurations.runtime).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }    
+    manifest {
+        attributes 'Main-Class': 'coinAssistant.ui.MainWindow'
+    }
+	exclude ('META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA')
+}

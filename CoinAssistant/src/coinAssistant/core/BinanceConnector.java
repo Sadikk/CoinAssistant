@@ -4,31 +4,42 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.binance.api.client.BinanceApiClientFactory;
-import com.binance.api.client.BinanceApiRestClient;
-import com.binance.api.client.domain.market.Candlestick;
-import com.binance.api.client.domain.market.CandlestickInterval;
+import com.webcerebrium.binance.api.BinanceApi;
+import com.webcerebrium.binance.api.BinanceApiException;
+import com.webcerebrium.binance.datatype.*;
 
 public class BinanceConnector {
-	private BinanceApiRestClient client;
+	private BinanceApi client;
 	
 	public BinanceConnector(){
-		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance();
-		client = factory.newRestClient();
+		client = new BinanceApi();	
 	}
 	
-	//todo : replace neoeth by symbol once work done
+	//todo : replace ethbtc by symbol once work done
 	public Collection<CandleStick> getCandlesticks(String symbol){
-		List<Candlestick> data = client.getCandlestickBars("NEOETH", CandlestickInterval.FIVE_MINUTES);
-		LinkedList<CandleStick> candle = new LinkedList<CandleStick>();
-		for (Candlestick c : data)
-		{
-			candle.add(new CandleStick(Double.parseDouble(c.getOpen()), 
-					Double.parseDouble(c.getClose()),
-					Double.parseDouble(c.getLow()), 
-					Double.parseDouble(c.getHigh())));
+		BinanceSymbol binanceSymbol;
+		try {
+			binanceSymbol = new BinanceSymbol("ETHBTC");
+		 
+			List<BinanceCandlestick> data = client.klines(binanceSymbol, BinanceInterval.ONE_HOUR, 5, null);
+			//BinanceCandlestick binanceCandlestick = data.get(0);
+		   // System.out.println("KLINE=" + binanceCandlestick.toString() );
+			
+			LinkedList<CandleStick> candle = new LinkedList<CandleStick>();
+			for (BinanceCandlestick c : data)
+			{
+				candle.add(new CandleStick(c.getOpen().doubleValue(), 
+						c.getClose().doubleValue(),
+						c.getLow().doubleValue(), 
+						c.getHigh().doubleValue()));
+			}
+			return candle;
 		}
-		return candle;
+		catch (BinanceApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 		//candle.add(new CandleStick())
 		
 	}
