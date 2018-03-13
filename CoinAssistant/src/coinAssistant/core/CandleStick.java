@@ -80,4 +80,25 @@ public class CandleStick {
 		return Math.max(open,close);
 	}
 	
+	/**
+	 * Renvoie la taille de l'ombre haute
+	 * @return valeur de la taille de l'ombre haute
+	 */
+	public double getUpperShadowSize() {
+		if (isAscend())
+			return Math.max(high - close, 0);
+		else
+			return Math.max(high - open, 0);
+	}
+	
+	/**
+	 * Renvoie la taille de l'ombre basse
+	 * @return valeur de la taille de l'ombre basse
+	 */
+	public double getLowerShadowSize() {
+		if (isAscend())
+			return Math.max(low - open, 0);
+		else
+			return Math.max(low - close, 0);
+	}
 }

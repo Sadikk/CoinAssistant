@@ -21,7 +21,7 @@ public abstract class Pattern {
 	 * @param data 		rang auquel vérifier
 	 * @return true si le pattern est présent, false sinon
 	 */
-	public abstract boolean isPatternPresent(ArrayList<CandleStick> data, int rang );
+	public abstract boolean isPatternPresent(ArrayList<CandleStick> data, int index);
 	
 	
 	/**
