@@ -8,7 +8,7 @@ public class DojiEveningStar extends Pattern{
 	final double RAPPORT_TAILLE=2;
 	public DojiEveningStar() {}
 	
-	//identifie une sequence précise comme correspondante au pattern ou non
+	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		CandleStick first=data.get(rg);
 		CandleStick second=data.get(rg+1);
@@ -24,6 +24,6 @@ public class DojiEveningStar extends Pattern{
 		
 	}
 	
-	//retourne la taille de l'évenement considéré
+	@Override
 	public int getPatternSize() {return taillePattern;}
 }

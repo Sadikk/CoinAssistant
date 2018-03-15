@@ -7,16 +7,20 @@ public class AbandonedBaby extends Pattern{
 	static private int taillePattern=3;
 	public AbandonedBaby() {}
 	
-	//identifie une sequence précise comme correspondante au pattern ou non
+	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		// deux parents au dessus du milieu
-		return (data.get(rg).getLow()>data.get(rg+1).getHigh()//parent avant
-		&& data.get(rg+2).getLow()>data.get(rg+1).getHigh()); //parent après
+		CandleStick first=data.get(rg);
+		CandleStick second=data.get(rg+1);
+		CandleStick third=data.get(rg+2);
+		
+		return (first.getLow()>second.getHigh()//parent avant
+		&& third.getLow()>second.getHigh()); //parent après
 			
 		
 	
 	}
 	
-	//retourne la taille de l'évenement considéré
+	@Override
 	public int getPatternSize() {return taillePattern;}
 }

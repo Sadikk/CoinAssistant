@@ -7,7 +7,7 @@ public class Harami extends Pattern{
 	static private int taillePattern=2;
 	public Harami() {}
 	
-	//identifie une sequence précise comme correspondante au pattern ou non
+	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		CandleStick first=data.get(rg);
 		CandleStick second=data.get(rg+1);
@@ -17,6 +17,6 @@ public class Harami extends Pattern{
 		
 	}
 	
-	//retourne la taille de l'évenement considéré
+	@Override
 	public int getPatternSize() {return taillePattern;}
 }
