@@ -1,5 +1,6 @@
 package coinAssistant.core;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CandleStick {
 
@@ -8,7 +9,7 @@ public class CandleStick {
 	private double low; 
 	private double high;
 	
-	public Pattern motif;
+	public LinkedList<Pattern> patterns; //patterns reconnus sur ce candle
 	/** 
 	 * Class constructor with array data
 	*/
@@ -28,7 +29,7 @@ public class CandleStick {
 		}
 		
 		//initialisation du pattern
-		motif=null;
+		patterns = new LinkedList<Pattern>();
 	}
 	/** 
 	 * Class constructor with filtered data
@@ -45,8 +46,8 @@ public class CandleStick {
 	public double getLow() {return this.low;}
 	public double getHigh() {return this.high;}
 	
-	public void setPattern(Pattern p) {
-		motif=p;
+	public void addPattern(Pattern p) {
+		patterns.add(p);
 	}
 	
 	/**
