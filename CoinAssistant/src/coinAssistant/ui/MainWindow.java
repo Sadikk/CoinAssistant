@@ -1,6 +1,7 @@
 package coinAssistant.ui;
 
 import javax.swing.JFrame;
+import javax.swing.BorderFactory;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -47,18 +48,16 @@ public class MainWindow extends JFrame {
 	    descriptionContainer.setPreferredSize(new Dimension(300, 200)); 
 	    descriptionContainer.setPreferredSize(descriptionContainer.getPreferredSize());
 	    descriptionContainer.setMinimumSize(descriptionContainer.getMinimumSize());
-	    descriptionTitle = new JLabel("Description du pattern selectionne");
-	    descriptionTitle.setBounds(75,10,300,20);
+	    descriptionContainer.setBorder(BorderFactory.createTitledBorder("Description du pattern selectionne"));
 	    timeDetection = new JLabel("-temps auquel le pattern est detecte");        
-	    timeDetection.setBounds(25,50,275,25);
+	    timeDetection.setBounds(5,50,275,25);
 	    forcePattern = new JLabel("-force du pattern");        
-	    forcePattern.setBounds(25,75,275,25);
+	    forcePattern.setBounds(5,75,275,25);
 	    lengthPattern = new JLabel("-longueur du pattern");        
-	    lengthPattern.setBounds(25,100,275,25);
+	    lengthPattern.setBounds(5,100,275,25);
 	    comparison = new JLabel("-caracteristiques de comparaison des differents indicateurs");        
-	    comparison.setBounds(25,125,275,25);
+	    comparison.setBounds(5,125,275,25);
 	    
-	    descriptionContainer.add(descriptionTitle);
 	    descriptionContainer.add(timeDetection);
 	    descriptionContainer.add(forcePattern);
 	    descriptionContainer.add(lengthPattern);
@@ -69,15 +68,12 @@ public class MainWindow extends JFrame {
 	    interpretationContainer.setPreferredSize(new Dimension(300, 200)); 
 	    interpretationContainer.setPreferredSize(interpretationContainer.getPreferredSize());
 	    interpretationContainer.setMinimumSize(interpretationContainer.getMinimumSize());
-	    interpretationTitle = new JLabel();
-	    interpretationTitle.setText("Interpretation du pattern");
-	    interpretationTitle.setBounds(75,10,300,20);
-	    explanationInterpretation = new JLabel("-explication de l'interpretation du pattern selectionne ou du dernier pattern");        
+	    interpretationContainer.setBorder(BorderFactory.createTitledBorder("Interpretation du pattern"));
+	    explanationInterpretation = new JLabel("<html><span>-explication de l'interpretation du pattern selectionne ou du dernier pattern</span></html>");        
 	    explanationInterpretation.setBounds(25,50,275,25);
 	    conclusion = new JLabel("-conclusion sur la tendance soupconnee");        
 	    conclusion.setBounds(25,75,275,25);
 	    
-	    interpretationContainer.add(interpretationTitle);
 	    interpretationContainer.add(explanationInterpretation);
 	    interpretationContainer.add(conclusion);
 	    
@@ -86,9 +82,7 @@ public class MainWindow extends JFrame {
 	    trendContainer.setPreferredSize(new Dimension(300, 200)); 
 	    trendContainer.setPreferredSize( trendContainer.getPreferredSize());
 	    trendContainer.setMinimumSize(trendContainer.getMinimumSize());
-	    trendTitle = new JLabel();
-	    trendTitle.setText("Tendance globale");
-	    trendTitle.setBounds(75,10,300,20);
+	    trendContainer.setBorder(BorderFactory.createTitledBorder("Tendance Globale"));
 	    sumIndicator = new JLabel("-somme de tous les indicateurs releves");        
 	    sumIndicator.setBounds(25,50,275,25);
 	    globalConclusion = new JLabel("-conclusion sur la tendance globale");        
@@ -96,7 +90,6 @@ public class MainWindow extends JFrame {
 	    advice = new JLabel("-conseil a l'achat ou a la vente");        
 	    advice.setBounds(25,100,275,25);
 	    
-	    trendContainer.add(trendTitle);
 	    trendContainer.add(sumIndicator);
 	    trendContainer.add(globalConclusion);
 	    trendContainer.add(advice);
@@ -104,24 +97,20 @@ public class MainWindow extends JFrame {
 	    
 	    actuatorContainer = new JPanel();
 	    actuatorContainer.setPreferredSize(new Dimension(450, 400));
-	    actuatorTitle = new JLabel("Actionneurs de l'interface");
-	    actuatorTitle.setBounds(75,10,300,20);
+	    actuatorContainer.setBorder(BorderFactory.createTitledBorder("Actionneurs de l'interface"));
 	    binarySetting= new JLabel("-reglages binaires : affichage d'elements on/off");        
-	    binarySetting.setBounds(25,50,275,25);
+	    binarySetting.setBounds(5,50,275,25);
 	    continuousSetting = new JLabel("-reglage continu : taille de l'intervalle de temps considere etc");        
-	    continuousSetting.setBounds(25,75,275,25);
+	    continuousSetting.setBounds(5,75,275,25);
 	    
-	    actuatorContainer.add(actuatorTitle);
 	    actuatorContainer.add(binarySetting);
 	    actuatorContainer.add(continuousSetting);
 	    
 	    
 	    graphContainer = new JPanel();
 	    graphContainer.setPreferredSize(new Dimension(650, 400)); 
-	    graphTitle = new JLabel("Courbe du cours");
-	    graphTitle.setBounds(75,10,300,20);
+	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    
-	    graphContainer.add(graphTitle);
 	  
 	    mainContainer = new JPanel();
 	    mainContainer.setLayout(new GridBagLayout());
@@ -155,7 +144,8 @@ public class MainWindow extends JFrame {
 	    gbc.gridx = 6; 
 	    gbc.gridy = 6;
 	    gbc.gridheight = 4;
-	    gbc.gridwidth = GridBagConstraints.REMAINDER;
+	    gbc.gridwidth = 3;
+	  //  gbc.gridwidth = GridBagConstraints.REMAINDER;
 	    mainContainer.add(trendContainer, gbc);
 	    
 	    setContentPane(mainContainer);
