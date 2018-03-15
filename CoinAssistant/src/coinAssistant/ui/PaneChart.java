@@ -40,7 +40,7 @@ public class PaneChart extends JPanel implements ChangeListener{
 		
 		this.setBackground(Color.white);
 		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);		
-		//debug
+		//debug   
 		//this.addMouseListener(this);
 		//
 	}
