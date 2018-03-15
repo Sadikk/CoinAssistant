@@ -12,13 +12,21 @@ public abstract class CandleStickChartView {
 	static int height=width/2; 
 	
 	//variables pour le map des valeurs:
+	static final double SIZE_BORDER=10.0; //en %
 	static int largDivX=0;
-	static double rapportY=0; 
+	static double rapportY=0;  
 	static double vMin=0;
 	static double vMax=0;
 	static int largCandle=0;
-	//retourne une representation graphique d'une liste d'evenements
-	//sans image d'entrée
+	
+	
+	/**
+	 * crée une image representant les données en entrée, aux dimensions choisies
+	 * @param data		données en entrée
+	 * @param w			largeur de l'image à creer
+	 * @param h			hauteur de l'image à creer
+	 * @return le graphique créé
+	 */
 	public static BufferedImage createChart(ArrayList<CandleStick> data, int w, int h) {
 		current=new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 		current.getGraphics().setColor(Color.white);
@@ -29,7 +37,12 @@ public abstract class CandleStickChartView {
 		return createChart(current,data);
 	}
 	
-	// avec image d'entrée, pour superposer des graphes par exemple
+	/**
+	 * crée une image representant les données en entrées, superposées au graphique
+	 * @param c 		image utilisée pour l'affichage
+	 * @param data 		données en entrée
+	 * @return le graphique créé
+	 */
 	public static BufferedImage createChart(BufferedImage c, ArrayList<CandleStick> data) {
 		current=c;
 		//dimensionnement adapté à la taille des données: définir l'echelle x
@@ -42,7 +55,14 @@ public abstract class CandleStickChartView {
 			if(candle.getLow()<vMin) {vMin=candle.getLow();}
 			if(candle.getHigh()>vMax) {vMax=candle.getHigh();}
 		}
+		//on aère en laissant 10% de marge en bas et en haut
+		double gap=vMax-vMin;
+		vMax+=gap*(SIZE_BORDER/100.0);
+		vMin-=gap*(SIZE_BORDER/100.0);
+				
 		rapportY=(double)(height)/(vMax-vMin);
+		
+		
 		
 		//on trace les barres
 		Graphics g=current.getGraphics();

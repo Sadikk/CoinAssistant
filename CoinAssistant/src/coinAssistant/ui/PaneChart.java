@@ -23,7 +23,11 @@ public class PaneChart extends JPanel implements ChangeListener{
 	int ySlider;
 	int nbPatternVisible=10;
 	
-	
+	/**
+	 *  crée le JPanel affichant le graphique
+	 * @param w		largeur du panel à creer
+	 * @param h		hauteur du panel à creer
+	 */
 	public PaneChart(int w,int h) {
 		width=w;
 		height=h;
@@ -45,7 +49,10 @@ public class PaneChart extends JPanel implements ChangeListener{
 		//
 	}
 	
-	
+	/**
+	 * 	raffraichit les données utilisés pour generer l'image de graphique
+	 * @param dataIn	les données à afficher
+	 */
 	public void setData(ArrayList<CandleStick> dataIn ) {
 		this.data=dataIn;
 		this.update(this.getGraphics());
@@ -58,7 +65,11 @@ public class PaneChart extends JPanel implements ChangeListener{
 		 */
 	}
 	
-	
+	/**
+	 * utilise la classe CandleStickChartView pour mettre à jour le graphique
+	 * affichage réglable en nombre de candlestick affichés et intervalle à choisir
+	 * @see CandleStickChartView
+	 */
 	private void refreshImage() {
 		//donne image finale avec tous les calculs
 		if(data.size()<=nbPatternVisible) {//si le nombre de données ne demande pas d'ajustements
@@ -74,16 +85,23 @@ public class PaneChart extends JPanel implements ChangeListener{
 		}
 	}
 	
+	/**
+	 * change le rendu graphique au mouvement du curseur
+	 * @param e		démarré par curseur
+	 */
 	public void stateChanged(ChangeEvent e) {
 		this.refreshImage();
 		this.refreshDisplay();
 	}
 	
+	/**
+	 * utilise l'image raffraichie pour le rendu graphique
+	 */
 	public void refreshDisplay() {
 		Graphics g=this.getGraphics();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
-		g.drawImage(chart, 0, 0, this.getWidth(),ySlider,null);
+		g.drawImage(chart, 0, 0, width,ySlider,null);
 		
 	}
 }
