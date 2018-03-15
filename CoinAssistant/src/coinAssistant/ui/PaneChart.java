@@ -1,4 +1,4 @@
-package coinAssistant.ui;
+package coinAssistant.ui; 
 
 import java.awt.Color;
 import java.awt.Dimension;
