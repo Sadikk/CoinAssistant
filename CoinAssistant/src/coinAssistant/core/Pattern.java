@@ -10,7 +10,7 @@ public abstract class Pattern {
 	public void applyPattern(ArrayList<CandleStick> data) {
 		for(int i=0;i<data.size()-getPatternSize();i++) {
 			if(isPatternPresent(data,i)){
-				data.get(i).setPattern(this);
+				data.get(i).addPattern(this);
 			}
 		}
 	}
