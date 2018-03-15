@@ -3,8 +3,11 @@ package coinAssistant.ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -12,7 +15,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import coinAssistant.core.CandleStick;
-public class PaneChart extends JPanel implements ChangeListener{
+import coinAssistant.core.Pattern;
+public class PaneChart extends JPanel implements ChangeListener,MouseMotionListener{
 	
 	int width;
 	int height;
@@ -86,6 +90,17 @@ public class PaneChart extends JPanel implements ChangeListener{
 	}
 	
 	/**
+	 * utilise l'image raffraichie pour le rendu graphique
+	 */
+	public void refreshDisplay() {
+		Graphics g=this.getGraphics();
+		g.setColor(Color.white);
+		g.fillRect(0, 0, width, height);
+		g.drawImage(chart, 0, 0, width,ySlider,null);
+		
+	}
+	
+	/**
 	 * change le rendu graphique au mouvement du curseur
 	 * @param e		démarré par curseur
 	 */
@@ -94,14 +109,26 @@ public class PaneChart extends JPanel implements ChangeListener{
 		this.refreshDisplay();
 	}
 	
-	/**
-	 * utilise l'image raffraichie pour le rendu graphique
-	 */
-	public void refreshDisplay() {
-		Graphics g=this.getGraphics();
-		g.setColor(Color.white);
-		g.fillRect(0, 0, width, height);
-		g.drawImage(chart, 0, 0, width,ySlider,null);
+	public void mouseMoved(MouseEvent e) {
+		if(e.getY()<ySlider) {
+			int rank=(int)((double)(e.getX())/(double)(CandleStickChartView.largDivX));
+			
+		}
+	}
+	public void mouseDragged(MouseEvent e) {}
+	
+	private LinkedList<Pattern> getPatternsAtRank(ArrayList<CandleStick> data,int rank){
+		LinkedList<Pattern> result=new LinkedList<Pattern>();
+		final int MAX_SIZE_PATTERN=10;//on cherche dans le passé jusqu'à n evenements plus tôt
+		for(int i=rank; (i>rank-MAX_SIZE_PATTERN)&&(i>=0);i--) {//protection i>=0 pour eviter sortie de tableau
+			LinkedList<Pattern> listPatterns= data.get(i).getPatterns();
+			for(int j=0;j<listPatterns.size();j++) {
+				if(listPatterns.get(i).getPatternSize()>(rank-i)) {
+					result.add(listPatterns.get(i));
+				}
+			}
+		}
+		return result;
 		
 	}
 }
