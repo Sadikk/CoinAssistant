@@ -21,7 +21,7 @@ public class PaneChart extends JPanel implements ChangeListener{
 	JSlider selectionSection;
 	BufferedImage chart;
 	int ySlider;
-	int nbPatternVisible=10;
+	int nbPatternVisible=20;
 	
 	/**
 	 *  crée le JPanel affichant le graphique

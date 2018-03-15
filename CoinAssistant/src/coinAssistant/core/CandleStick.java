@@ -49,7 +49,7 @@ public class CandleStick {
 	public void addPattern(Pattern p) {
 		patterns.add(p);
 	}
-	
+	public LinkedList<Pattern> getPatterns(){return patterns;}
 	/**
 	 * Détermine si le candlestick est ascendant ou non
 	 * @return true si le candlestick est ascendant, false sinon

@@ -1,8 +1,10 @@
 package coinAssistant.core;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Pattern {
+	Color colorPattern=Color.red;
 	/**
 	 * Applique la reconnaissance de pattern sur une série de données
 	 * @param data 		séries de candlestick
@@ -17,7 +19,7 @@ public abstract class Pattern {
 	
 	/**
 	 * Vérifie si un pattern est présent à un certain rang dans une série de données
-	 * @param data 		séries de candlestick
+	 * @param data		séries de candlestick
 	 * @param data 		rang auquel vérifier
 	 * @return true si le pattern est présent, false sinon
 	 */
@@ -29,7 +31,9 @@ public abstract class Pattern {
 	 * @return taille du pattern
 	 */
 	public abstract int getPatternSize();
-	
+	public Color getColor() {
+		return colorPattern;
+	}
 	
 	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/
 }
