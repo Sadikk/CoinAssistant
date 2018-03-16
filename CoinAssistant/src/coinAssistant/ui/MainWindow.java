@@ -8,12 +8,14 @@ import java.awt.GridBagConstraints;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import coinAssistant.core.BinanceConnector;
+import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 import coinAssistant.core.ReflectionHelper;
 
@@ -21,7 +23,7 @@ public class MainWindow extends JFrame {
 	private Box descriptionContainer;
     private Box interpretationContainer;
     private Box trendContainer;
-    private JPanel graphContainer;
+    private PaneChart graphContainer;
     private Box actuatorContainer;
     private JPanel mainContainer;
     private JLabel descriptionTitle;
@@ -97,7 +99,7 @@ public class MainWindow extends JFrame {
 	    actuatorContainer.add(continuousSetting);
 	    
 	    
-	    graphContainer = new JPanel();
+	    graphContainer = new PaneChart(650, 400);
 	    graphContainer.setPreferredSize(new Dimension(650, 400));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
@@ -151,15 +153,20 @@ public class MainWindow extends JFrame {
 	   
     
     }
+	
+	public void displayData(ArrayList<CandleStick> data)
+	{
+		this.graphContainer.setData(data);
+	}
 
 	public static void main(String[] args) { 
 		MainWindow mW = new MainWindow();
 		
 		//Binance connection test : ok
-		//BinanceConnector connector = new BinanceConnector();
-		//System.out.println(connector.getCandlesticks(""));
+		BinanceConnector connector = new BinanceConnector();
+		mW.displayData(new ArrayList<CandleStick>(connector.getCandlesticks("")));
 		
-		try {
+		/*try {
 			Class[] classes = ReflectionHelper.getClasses("coinAssistant.core.candlesticks");
 			//need to add
 			//ReflectionHelper.getClasses("coinAssistant.core.charts.ascending");
@@ -173,7 +180,7 @@ public class MainWindow extends JFrame {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }
 

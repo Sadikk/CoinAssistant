@@ -137,15 +137,18 @@ public abstract class CandleStickChartView {
 		boolean [][] pris=new boolean[data.size()][MAX_PATTERN_SIMULTANE];
 		
 		for (int i=0;i<data.size();i++) {
-			CandleStick candle=data.get(i);	
-			for(Pattern p :candle.getPatterns()) {
-				if(p.getPatternSize()<data.size()-i) {//protège la methode d'input invalides avec pattern reconnus en dehors de la liste
-					g.setColor(p.getColor());
-					int rang=firstRangeAvailable(pris[i]);
-					int heightLine=(int)(height*(1.0-rang*0.02));
-					g.drawLine((int)(i+0.10)*(largDivX),heightLine,(int)(i+p.getPatternSize()-0.10)*largDivX,heightLine);//0.1 pour espacer les signaux
-					for(int j=0;j<p.getPatternSize();j++) {
-						pris[i+j][rang]=true;
+			CandleStick candle=data.get(i);
+			if (candle.getPatterns() != null)
+			{
+				for(Pattern p :candle.getPatterns()) {
+					if(p.getPatternSize()<data.size()-i) {//protège la methode d'input invalides avec pattern reconnus en dehors de la liste
+						g.setColor(p.getColor());
+						int rang=firstRangeAvailable(pris[i]);
+						int heightLine=(int)(height*(1.0-rang*0.02));
+						g.drawLine((int)(i+0.10)*(largDivX),heightLine,(int)(i+p.getPatternSize()-0.10)*largDivX,heightLine);//0.1 pour espacer les signaux
+						for(int j=0;j<p.getPatternSize();j++) {
+							pris[i+j][rang]=true;
+						}
 					}
 				}
 			}

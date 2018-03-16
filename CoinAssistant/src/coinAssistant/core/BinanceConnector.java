@@ -21,7 +21,7 @@ public class BinanceConnector {
 		try {
 			binanceSymbol = new BinanceSymbol("ETHBTC");
 		 
-			List<BinanceCandlestick> data = client.klines(binanceSymbol, BinanceInterval.ONE_HOUR, 5, null);
+			List<BinanceCandlestick> data = client.klines(binanceSymbol, BinanceInterval.ONE_HOUR, 100, null);
 			//BinanceCandlestick binanceCandlestick = data.get(0);
 		   // System.out.println("KLINE=" + binanceCandlestick.toString() );
 			

@@ -54,7 +54,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	}
 	
 	/**
-	 * 	raffraichit les données utilisés pour generer l'image de graphique
+	 * 	rafraichit les données utilisés pour generer l'image de graphique
 	 * @param dataIn	les données à afficher
 	 */
 	public void setData(ArrayList<CandleStick> dataIn ) {
