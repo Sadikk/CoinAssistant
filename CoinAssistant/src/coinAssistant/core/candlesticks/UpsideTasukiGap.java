@@ -1,9 +1,11 @@
 package coinAssistant.core.candlesticks;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import coinAssistant.core.*;
 
 public class UpsideTasukiGap extends Pattern{
+	static private Color patternColor=new Color(93,242,23);
 	static private int taillePattern=3;
 	public UpsideTasukiGap() {}
 	@Override
@@ -24,6 +26,8 @@ public class UpsideTasukiGap extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	@Override
+	public Color getColor(){return patternColor;}
 }
 
 //source : https://hitandruncandlesticks.com/downside-tasuki-gap/

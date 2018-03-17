@@ -1,12 +1,13 @@
 package coinAssistant.core.candlesticks;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 
 public class Engulfing extends Pattern {
-	
+	static private Color patternColor=Color.magenta;
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int index) {
 		CandleStick first = data.get(index);
@@ -27,5 +28,7 @@ public class Engulfing extends Pattern {
 	public int getPatternSize() {
 		return 1;
 	}
+	@Override
+	public Color getColor(){return patternColor;}
 
 }

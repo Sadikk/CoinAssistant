@@ -1,10 +1,14 @@
 package coinAssistant.core.candlesticks;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import coinAssistant.core.*;
+
+import coinAssistant.core.CandleStick;
+import coinAssistant.core.Pattern;
 
 public class Harami extends Pattern{
 	static private int taillePattern=2;
+	static private Color patternColor=Color.pink;
 	public Harami() {}
 	
 	@Override
@@ -19,4 +23,6 @@ public class Harami extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	@Override
+	public Color getColor(){return patternColor;}
 }

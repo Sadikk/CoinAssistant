@@ -25,7 +25,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	JSlider selectionSection;
 	BufferedImage chart;
 	int ySlider;
-	int nbPatternVisible=20;
+	int nbPatternVisible=40;
 	
 	/**
 	 *  crée le JPanel affichant le graphique

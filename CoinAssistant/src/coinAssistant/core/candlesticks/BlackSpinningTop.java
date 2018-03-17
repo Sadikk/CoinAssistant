@@ -1,12 +1,13 @@
 package coinAssistant.core.candlesticks;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 
 public class BlackSpinningTop extends Pattern {
-	
+	static private Color patternColor=Color.cyan;
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int index) {
 		if (index < 2)
@@ -26,5 +27,7 @@ public class BlackSpinningTop extends Pattern {
 	public int getPatternSize() {
 		return 1;
 	}
+	@Override
+	public Color getColor(){return patternColor;}
 
 }

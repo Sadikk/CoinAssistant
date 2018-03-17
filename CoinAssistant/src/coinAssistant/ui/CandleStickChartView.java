@@ -39,6 +39,8 @@ public abstract class CandleStickChartView {
 		return createChart(current,data);
 	}
 	
+	
+	
 	/**
 	 * crée une image representant les données en entrées, superposées au graphique
 	 * @param c 		image utilisée pour l'affichage
@@ -93,9 +95,26 @@ public abstract class CandleStickChartView {
 			g.drawRect(abscisse-largCandle,height-(int)((max-vMin)*rapportY),largCandle*2,(int)((max-min)*rapportY));
 		}
 		showPatternV2(current,data);
+		addLegend(current,rapportY,vMin,vMax);
 		return current;	
 	}
 	
+	public static void addLegend(BufferedImage c, double rapportY,double vMin,double vMax) {
+		Graphics g=c.getGraphics();
+		final int NB_GRAD=10;
+		double pas=(vMax-vMin)/(double)NB_GRAD;
+		double first=vMin;
+		for(int i=0;i<NB_GRAD;i++) {
+			int hBox=c.getHeight()-(int)(rapportY*(i*pas));
+			g.setColor(Color.white);
+			g.fillRect(8, hBox-15, 30, 15);
+			g.setColor(Color.black);
+			g.drawRect(8, hBox-15, 30, 15);
+			String toDisplay=Double.toString(Math.round((vMin+i*pas)*100)/100.0);
+			g.drawString(toDisplay,10,hBox);
+		}
+		
+	}
 	/**
 	 * met en valeur les patterns reconnus en surlignant avec transparence le fond
 	 * s'utilise avant l'affichage des candlesticks pour ne pas les affecter

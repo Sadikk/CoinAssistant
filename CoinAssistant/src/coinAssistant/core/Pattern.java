@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 public abstract class Pattern {
-	Color colorPattern=Color.red;
 	/**
 	 * Applique la reconnaissance de pattern sur une série de données
 	 * @param data 		séries de candlestick
@@ -31,9 +30,7 @@ public abstract class Pattern {
 	 * @return taille du pattern
 	 */
 	public abstract int getPatternSize();
-	public Color getColor() {
-		return colorPattern;
-	}
 	
+	public abstract Color getColor();
 	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/
 }

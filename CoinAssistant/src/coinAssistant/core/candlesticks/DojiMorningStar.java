@@ -1,10 +1,14 @@
 package coinAssistant.core.candlesticks;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import coinAssistant.core.*;
+
+import coinAssistant.core.CandleStick;
+import coinAssistant.core.Pattern;
 
 public class DojiMorningStar extends Pattern{
 	static private int taillePattern=3;
+	static private Color patternColor=Color.green;
 	final double RAPPORT_TAILLE=2;
 	public DojiMorningStar() {}
 	
@@ -26,4 +30,6 @@ public class DojiMorningStar extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	@Override
+	public Color getColor(){return patternColor;}
 }

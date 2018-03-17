@@ -1,12 +1,13 @@
 package coinAssistant.core.candlesticks;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 
 public class PiercingLine extends Pattern {
-
+	static private Color patternColor=Color.red;
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int index) {
 		CandleStick first = data.get(index);
@@ -21,5 +22,7 @@ public class PiercingLine extends Pattern {
 	public int getPatternSize() {
 		return 2;
 	}
+	@Override
+	public Color getColor(){return patternColor;}
 
 }
