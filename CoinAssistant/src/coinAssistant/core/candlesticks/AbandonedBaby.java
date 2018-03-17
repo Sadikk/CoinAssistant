@@ -9,7 +9,10 @@ import coinAssistant.core.Pattern;
 public class AbandonedBaby extends Pattern{
 	static private int taillePattern=3;
 	static private Color patternColor=Color.blue;
-	public AbandonedBaby() {}
+	public AbandonedBaby()
+	{
+		
+	}
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		// deux parents au dessus du milieu

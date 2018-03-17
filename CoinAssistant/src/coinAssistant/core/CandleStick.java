@@ -39,6 +39,7 @@ public class CandleStick {
 		this.close=c;
 		this.low=l;
 		this.high=h;
+		patterns = new LinkedList<Pattern>();
 	}
 	
 	public double getOpen() {return this.open;}

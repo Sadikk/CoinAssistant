@@ -3,12 +3,21 @@ package coinAssistant.ui;
 import javax.swing.JFrame;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +28,7 @@ import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 import coinAssistant.core.ReflectionHelper;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements ItemListener{
 	private Box descriptionContainer;
     private Box interpretationContainer;
     private Box trendContainer;
@@ -43,12 +52,46 @@ public class MainWindow extends JFrame {
     private JLabel binarySetting;
     private JLabel continuousSetting;
     
-
+    private BinanceConnector _binance;
+    private LinkedList<Pattern> _patterns;
+    
 	public MainWindow() {
 	    super("CoinAssistant");
 	    setSize(1200,700);
 	    setLocation(100,25);
 	    setMinimumSize(new Dimension(650, 400));
+	    
+	    _binance = new BinanceConnector();
+	    _patterns = new LinkedList<Pattern>();
+	    Class[] classes;
+		try {
+			classes = ReflectionHelper.getClasses("coinAssistant.core.candlesticks");
+			for (Class c : classes) {
+				if (Pattern.class.isAssignableFrom(c)) //pattern = superclass
+				{
+					
+
+						try {
+							_patterns.add((Pattern)c.newInstance());
+						} catch (InstantiationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+					
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
 	    
 	    descriptionContainer = Box.createVerticalBox();
 	    descriptionContainer.setPreferredSize(new Dimension(300, 200)); 
@@ -90,13 +133,23 @@ public class MainWindow extends JFrame {
 	    
 	    actuatorContainer = Box.createVerticalBox();
 	    actuatorContainer.setPreferredSize(new Dimension(450, 400));
-	    actuatorContainer.setBorder(BorderFactory.createTitledBorder("Actionneurs de l'interface"));
-	    binarySetting= new JLabel("<html>-reglages binaires : affichage d'elements on/off</html>");        
-	    binarySetting.setBounds(5,50,275,25);
+	    actuatorContainer.setBorder(BorderFactory.createTitledBorder("Actionneurs"));
+	    
+
+	    final DefaultComboBoxModel model = new DefaultComboBoxModel(_binance.getSymbols().toArray());
+	    JComboBox symbolBox = new JComboBox(model);
+	    symbolBox.setPreferredSize(new Dimension(200, 50));
+	    symbolBox.setMaximumSize(new Dimension(200, 50));
+	    symbolBox.addItemListener((ItemListener) this);
+	    
+	    binarySetting= new JLabel("<html>Paire de cryptomonnaies à analyser : </html>");        
 	    continuousSetting = new JLabel("<html>-reglage continu : taille de l'intervalle de temps considere etc</html>");        
 	    
 	    actuatorContainer.add(binarySetting);
+	    actuatorContainer.add(symbolBox);
 	    actuatorContainer.add(continuousSetting);
+	    
+	   
 	    
 	    
 	    graphContainer = new PaneChart(650, 400);
@@ -156,15 +209,25 @@ public class MainWindow extends JFrame {
 	
 	public void displayData(ArrayList<CandleStick> data)
 	{
+		for (Pattern p : _patterns)
+			p.applyPattern(data);
 		this.graphContainer.setData(data);
 	}
+	
+	public void itemStateChanged(ItemEvent event) {
+       if (event.getStateChange() == ItemEvent.SELECTED) {
+          Object item = event.getItem();
+          displayData(new ArrayList<CandleStick>(_binance.getCandlesticks(item.toString(), null)));
+       }
+    }      
+	
 
 	public static void main(String[] args) { 
 		MainWindow mW = new MainWindow();
 		
 		//Binance connection test : ok
-		BinanceConnector connector = new BinanceConnector();
-		mW.displayData(new ArrayList<CandleStick>(connector.getCandlesticks("")));
+		/*BinanceConnector connector = new BinanceConnector();
+		mW.displayData(new ArrayList<CandleStick>(connector.getCandlesticks("")));*/
 		
 		/*try {
 			Class[] classes = ReflectionHelper.getClasses("coinAssistant.core.candlesticks");
@@ -182,6 +245,8 @@ public class MainWindow extends JFrame {
 			e.printStackTrace();
 		}*/
 	}
+	
+	
 }
 
 

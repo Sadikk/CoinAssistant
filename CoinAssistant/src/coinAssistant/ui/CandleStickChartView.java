@@ -51,7 +51,7 @@ public abstract class CandleStickChartView {
 		current=c;
 		//dimensionnement adapté à la taille des données: définir l'echelle x
 		largDivX=width/data.size();
-		largCandle=(int)(largDivX*0.1);
+		largCandle=(int)(largDivX*0.45);
 		//on cherche le min/max de la série pour définir l'echelle y
 		vMin=data.get(0).getLow();
 		vMax=data.get(0).getHigh();
@@ -77,17 +77,17 @@ public abstract class CandleStickChartView {
 			g.setColor(Color.black);
 			g.drawLine(abscisse, height-(int)((candle.getLow()-vMin)*rapportY), abscisse, height-(int)((candle.getHigh()-vMin)*rapportY));
 			//barre du haut
-			g.drawLine(abscisse-largCandle, height-(int)((candle.getHigh()-vMin)*rapportY), abscisse+largCandle, height-(int)((candle.getHigh()-vMin)*rapportY));
+			//g.drawLine(abscisse-largCandle, height-(int)((candle.getHigh()-vMin)*rapportY), abscisse+largCandle, height-(int)((candle.getHigh()-vMin)*rapportY));
 			//barre du bas
-			g.drawLine(abscisse-largCandle, height-(int)((candle.getLow()-vMin)*rapportY), abscisse+largCandle,height-(int)((candle.getLow()-vMin)*rapportY));
+			//g.drawLine(abscisse-largCandle, height-(int)((candle.getLow()-vMin)*rapportY), abscisse+largCandle,height-(int)((candle.getLow()-vMin)*rapportY));
 			
 			//tracé des boites
 			
 			//on regarde si motif croissant ou decroissant
 			double min=candle.getMinBody();
 			double max=candle.getMaxBody();
-			if(candle.isAscend()) {g.setColor(Color.green);}
-			else {g.setColor(Color.red);}
+			if(candle.isAscend()) {g.setColor(new Color(140,193,118));}
+			else {g.setColor(new Color(184,44,12));}
 			//boites
 			g.fillRect(abscisse-largCandle,height-(int)((max-vMin)*rapportY),largCandle*2,(int)((max-min)*rapportY));
 			//contour de la boite

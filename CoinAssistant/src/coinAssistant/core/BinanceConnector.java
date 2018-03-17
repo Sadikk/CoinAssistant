@@ -1,8 +1,13 @@
 package coinAssistant.core;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
 
 import com.webcerebrium.binance.api.BinanceApi;
 import com.webcerebrium.binance.api.BinanceApiException;
@@ -15,15 +20,19 @@ public class BinanceConnector {
 		client = new BinanceApi();	
 	}
 	
-	//todo : replace ethbtc by symbol once work done
-	public Collection<CandleStick> getCandlesticks(String symbol){
+	/**
+	 * Récupère les prix du marché depuis la plateforme de trading binance.com
+	 * @param symbol 		paire de currency à analyser
+	 * @param interval		intervalle de temps par chandelier
+	 */
+	public Collection<CandleStick> getCandlesticks(String symbol, BinanceInterval interval){  //todo symbol selection
 		BinanceSymbol binanceSymbol;
+		if (interval == null)
+			interval = BinanceInterval.FIVE_MIN;
 		try {
-			binanceSymbol = new BinanceSymbol("ETHBTC");
+			binanceSymbol = new BinanceSymbol(symbol);
 		 
-			List<BinanceCandlestick> data = client.klines(binanceSymbol, BinanceInterval.ONE_HOUR, 100, null);
-			//BinanceCandlestick binanceCandlestick = data.get(0);
-		   // System.out.println("KLINE=" + binanceCandlestick.toString() );
+			List<BinanceCandlestick> data = client.klines(binanceSymbol, interval, 100, null);
 			
 			LinkedList<CandleStick> candle = new LinkedList<CandleStick>();
 			for (BinanceCandlestick c : data)
@@ -36,12 +45,35 @@ public class BinanceConnector {
 			return candle;
 		}
 		catch (BinanceApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exception = sw.toString();
+			JOptionPane.showMessageDialog(null, 
+                    "Une erreur est survenue lors de la récupèration des données depuis le serveur de Binance. Error : " + e.getMessage() + "-- Stacktrace :" + exception, 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
-		//candle.add(new CandleStick())
 		
+	}
+	
+	/**
+	 * Récupère la liste des paires actuellement commercées sur Binance
+	 */
+	public Set<String> getSymbols()
+	{
+		try {
+			return client.allBookTickersMap().keySet();
+		} catch (BinanceApiException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exception = sw.toString();
+			JOptionPane.showMessageDialog(null, 
+                    "Une erreur est survenue lors de la récupèration des symboles depuis le serveur de Binance. Error : " + e.getMessage() + "-- Stacktrace :" + exception, 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+		}
+		return null;
 	}
 	
 	
