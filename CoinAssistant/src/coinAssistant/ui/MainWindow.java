@@ -57,10 +57,10 @@ public class MainWindow extends JFrame implements ItemListener{
     
 	public MainWindow() {
 	    super("CoinAssistant");
-	    setSize(1200,700);
+	    setSize(1800,1200);
 	    setLocation(100,25);
-	    setMinimumSize(new Dimension(650, 400));
-	    
+	    setMinimumSize(new Dimension(1668, 947));
+	    setMaximumSize(new Dimension(1668, 947));
 	    _binance = new BinanceConnector();
 	    _patterns = new LinkedList<Pattern>();
 	    Class[] classes;
@@ -94,7 +94,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    descriptionContainer = Box.createVerticalBox();
-	    descriptionContainer.setPreferredSize(new Dimension(300, 200)); 
+	    descriptionContainer.setPreferredSize(new Dimension(500, 300)); 
 	    descriptionContainer.setBorder(BorderFactory.createTitledBorder("Description du pattern selectionne"));
 	    
 	    timeDetection = new JLabel("<html>-temps auquel le pattern est detecte</html>");        
@@ -110,7 +110,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    interpretationContainer = Box.createVerticalBox();
-	    interpretationContainer.setPreferredSize(new Dimension(300, 200)); 
+	    interpretationContainer.setPreferredSize(new Dimension(500, 300)); 
 	    interpretationContainer.setBorder(BorderFactory.createTitledBorder("Interpretation du pattern"));
 	    explanationInterpretation = new JLabel("<html>-explication de l'interpretation du pattern selectionne ou du dernier pattern</html>");  
 	    conclusion = new JLabel("<html>-conclusion sur la tendance soupconnee</html>");        
@@ -120,7 +120,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    trendContainer = Box.createVerticalBox();
-	    trendContainer.setPreferredSize(new Dimension(300, 200));
+	    trendContainer.setPreferredSize(new Dimension(500, 300));
 	    trendContainer.setBorder(BorderFactory.createTitledBorder("Tendance Globale"));
 	    sumIndicator = new JLabel("<html>-somme de tous les indicateurs releves");        
 	    globalConclusion = new JLabel("<html>-conclusion sur la tendance globale");        
@@ -132,7 +132,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    actuatorContainer = Box.createVerticalBox();
-	    actuatorContainer.setPreferredSize(new Dimension(450, 400));
+	    actuatorContainer.setPreferredSize(new Dimension(650, 500));
 	    actuatorContainer.setBorder(BorderFactory.createTitledBorder("Actionneurs"));
 	    
 
@@ -142,7 +142,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    symbolBox.setMaximumSize(new Dimension(200, 50));
 	    symbolBox.addItemListener((ItemListener) this);
 	    
-	    binarySetting= new JLabel("<html>Paire de cryptomonnaies à analyser : </html>");        
+	    binarySetting= new JLabel("<html>Paire de cryptomonnaies a analyser : </html>");        
 	    continuousSetting = new JLabel("<html>-reglage continu : taille de l'intervalle de temps considere etc</html>");        
 	    
 	    actuatorContainer.add(binarySetting);
@@ -152,8 +152,8 @@ public class MainWindow extends JFrame implements ItemListener{
 	   
 	    
 	    
-	    graphContainer = new PaneChart(650, 400);
-	    graphContainer.setPreferredSize(new Dimension(650, 400));
+	    graphContainer = new PaneChart(900, 600);
+	    graphContainer.setPreferredSize(new Dimension(900, 600));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    
@@ -200,7 +200,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    mainContainer.add(trendContainer, gbc);
 	    
 	    setContentPane(mainContainer);
-	    
+	    pack();
 	    setVisible(true);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	   
@@ -224,7 +224,7 @@ public class MainWindow extends JFrame implements ItemListener{
 
 	public static void main(String[] args) { 
 		MainWindow mW = new MainWindow();
-		
+		System.out.println(mW.getSize());
 		//Binance connection test : ok
 		/*BinanceConnector connector = new BinanceConnector();
 		mW.displayData(new ArrayList<CandleStick>(connector.getCandlesticks("")));*/
