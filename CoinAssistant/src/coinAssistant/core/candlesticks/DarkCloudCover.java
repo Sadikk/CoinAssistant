@@ -26,6 +26,10 @@ public class DarkCloudCover extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	
+	@Override
+	public String getName() {return "DarkCloudCover";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 }

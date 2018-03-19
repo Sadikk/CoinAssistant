@@ -31,5 +31,8 @@ public class AbandonedBaby extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
+	public String getName() {return "AbandonedBaby";}
+	
+	@Override
 	public Color getColor(){return patternColor;}
 }

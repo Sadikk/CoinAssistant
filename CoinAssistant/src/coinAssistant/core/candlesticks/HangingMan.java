@@ -20,6 +20,10 @@ public class HangingMan extends Pattern {
 	public int getPatternSize() {
 		return 1;
 	}
+	
+	@Override
+	public String getName() {return "HangingMan";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 }

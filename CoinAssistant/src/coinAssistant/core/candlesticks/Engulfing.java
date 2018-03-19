@@ -31,6 +31,11 @@ public class Engulfing extends Pattern {
 	public int getPatternSize() {
 		return 1;
 	}
+	
+	@Override
+	public String getName() {return "Engulfing";}
+		
+	
 	@Override
 	public Color getColor(){return patternColor;}
 

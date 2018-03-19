@@ -22,6 +22,10 @@ public class PiercingLine extends Pattern {
 	public int getPatternSize() {
 		return 2;
 	}
+	
+	@Override
+	public String getName() {return "PiercingLine";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 

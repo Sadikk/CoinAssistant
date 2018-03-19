@@ -36,6 +36,10 @@ public class Twin extends Pattern {
 	public int getPatternSize() {
 		return 3;
 	}
+	
+	@Override
+	public String getName() {return "Twin";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 

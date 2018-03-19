@@ -30,6 +30,10 @@ public class DojiMorningStar extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	
+	@Override
+	public String getName() {return "DojiMorningStar";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 }

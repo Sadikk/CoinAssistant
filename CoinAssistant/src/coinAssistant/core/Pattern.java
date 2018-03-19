@@ -31,6 +31,14 @@ public abstract class Pattern {
 	 */
 	public abstract int getPatternSize();
 	
+	/**
+	 * Retourne le nom du pattern
+	 * @return nom du pattern
+	 */
+	public abstract String getName();
+	
+	public abstract String getDesciption();
+	
 	public abstract Color getColor();
 	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/
 }

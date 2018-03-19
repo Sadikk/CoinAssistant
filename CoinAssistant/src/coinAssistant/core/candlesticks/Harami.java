@@ -23,6 +23,10 @@ public class Harami extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	
+	@Override
+	public String getName() {return "Harami";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 }

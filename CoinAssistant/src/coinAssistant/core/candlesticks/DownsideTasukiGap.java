@@ -28,6 +28,10 @@ public class DownsideTasukiGap extends Pattern{
 	
 	@Override
 	public int getPatternSize() {return taillePattern;}
+	
+	@Override
+	public String getName() {return "DownsideTasukiGap";}
+	
 	@Override
 	public Color getColor(){return patternColor;}
 }
