@@ -103,17 +103,27 @@ public abstract class CandleStickChartView {
 		Graphics g=c.getGraphics();
 		final int NB_GRAD=10;
 		double pas=(vMax-vMin)/(double)NB_GRAD;
-		double first=vMin;
+		int order=calculOrder(vMin);
 		for(int i=0;i<NB_GRAD;i++) {
 			int hBox=c.getHeight()-(int)(rapportY*(i*pas));
 			g.setColor(Color.white);
 			g.fillRect(8, hBox-15, 30, 15);
 			g.setColor(Color.black);
 			g.drawRect(8, hBox-15, 30, 15);
-			String toDisplay=Double.toString(Math.round((vMin+i*pas)*100)/100.0);
+			String toDisplay=Double.toString(Math.round((vMin+i*pas)*100.0/Math.pow(10, order))/100.0);
 			g.drawString(toDisplay,10,hBox);
 		}
 		
+	}
+	private static int calculOrder(double vMin) {
+		int ordre=0;
+		while(vMin/(double)Math.pow(10, ordre)>0 && vMin/(double)Math.pow(10, ordre)<10) {
+			if(vMin/(double)Math.pow(10, ordre)<0) {
+				ordre--;
+			}
+			else {ordre++;}
+		}
+		return ordre;
 	}
 	/**
 	 * met en valeur les patterns reconnus en surlignant avec transparence le fond

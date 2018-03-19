@@ -37,7 +37,7 @@ public abstract class Pattern {
 	 */
 	public abstract String getName();
 	
-	public abstract String getDescription();
+	//public abstract String getDescription();
 	
 	public abstract Color getColor();
 	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/

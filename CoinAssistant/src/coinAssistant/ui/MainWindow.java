@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -29,6 +30,14 @@ import coinAssistant.core.Pattern;
 import coinAssistant.core.ReflectionHelper;
 
 public class MainWindow extends JFrame implements ItemListener{
+	
+	//dimensionnement de la fenêtre
+	int sizeXinit=1800;
+	int sizeYinit=1200;
+	int sizeX;
+	int sizeY;
+	double ratio;//final/init
+	
 	private Box descriptionContainer;
     private Box interpretationContainer;
     private Box trendContainer;
@@ -57,10 +66,18 @@ public class MainWindow extends JFrame implements ItemListener{
     
 	public MainWindow() {
 	    super("CoinAssistant");
-	    setSize(1800,1200);
-	    setLocation(100,25);
-	    setMinimumSize(new Dimension(1668, 947));
-	    setMaximumSize(new Dimension(1668, 947));
+	    
+	    Toolkit t = Toolkit.getDefaultToolkit();
+		this.sizeX = (int) (t.getScreenSize().width * 0.8);
+		this.sizeY = (int)(sizeX/((double)(sizeXinit)/(sizeYinit)));
+		this.ratio=(double)(sizeX)/(double)(sizeXinit);
+	    
+		
+	    setSize(sizeX,sizeY);
+	    setResizable(false);
+	    setLocation(toRelative(100),toRelative(25));
+	    //setMinimumSize(new Dimension(1668, 947));
+	    //setMaximumSize(new Dimension(1668, 947));
 	    _binance = new BinanceConnector();
 	    _patterns = new LinkedList<Pattern>();
 	    Class[] classes;
@@ -94,7 +111,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    descriptionContainer = Box.createVerticalBox();
-	    descriptionContainer.setPreferredSize(new Dimension(500, 300)); 
+	    descriptionContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300))); 
 	    descriptionContainer.setBorder(BorderFactory.createTitledBorder("Description du pattern selectionne"));
 	    
 	    timeDetection = new JLabel("<html>-temps auquel le pattern est detecte</html>");        
@@ -110,7 +127,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    interpretationContainer = Box.createVerticalBox();
-	    interpretationContainer.setPreferredSize(new Dimension(500, 300)); 
+	    interpretationContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300))); 
 	    interpretationContainer.setBorder(BorderFactory.createTitledBorder("Interpretation du pattern"));
 	    explanationInterpretation = new JLabel("<html>-explication de l'interpretation du pattern selectionne ou du dernier pattern</html>");  
 	    conclusion = new JLabel("<html>-conclusion sur la tendance soupconnee</html>");        
@@ -120,7 +137,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    trendContainer = Box.createVerticalBox();
-	    trendContainer.setPreferredSize(new Dimension(500, 300));
+	    trendContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300)));
 	    trendContainer.setBorder(BorderFactory.createTitledBorder("Tendance Globale"));
 	    sumIndicator = new JLabel("<html>-somme de tous les indicateurs releves");        
 	    globalConclusion = new JLabel("<html>-conclusion sur la tendance globale");        
@@ -132,14 +149,14 @@ public class MainWindow extends JFrame implements ItemListener{
 	    
 	    
 	    actuatorContainer = Box.createVerticalBox();
-	    actuatorContainer.setPreferredSize(new Dimension(650, 500));
+	    actuatorContainer.setPreferredSize(new Dimension(toRelative(650), toRelative(500)));
 	    actuatorContainer.setBorder(BorderFactory.createTitledBorder("Actionneurs"));
 	    
 
 	    final DefaultComboBoxModel model = new DefaultComboBoxModel(_binance.getSymbols().toArray());
 	    JComboBox symbolBox = new JComboBox(model);
-	    symbolBox.setPreferredSize(new Dimension(200, 50));
-	    symbolBox.setMaximumSize(new Dimension(200, 50));
+	    symbolBox.setPreferredSize(new Dimension(toRelative(200), toRelative(50)));
+	    symbolBox.setMaximumSize(new Dimension(toRelative(200), toRelative(50)));
 	    symbolBox.addItemListener((ItemListener) this);
 	    
 	    binarySetting= new JLabel("<html>Paire de cryptomonnaies a analyser : </html>");        
@@ -152,8 +169,8 @@ public class MainWindow extends JFrame implements ItemListener{
 	   
 	    
 	    
-	    graphContainer = new PaneChart(900, 600);
-	    graphContainer.setPreferredSize(new Dimension(900, 600));
+	    graphContainer = new PaneChart(toRelative(900), toRelative(600));
+	    graphContainer.setPreferredSize(new Dimension(toRelative(900),toRelative( 600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    
@@ -207,6 +224,9 @@ public class MainWindow extends JFrame implements ItemListener{
     
     }
 	
+	private int toRelative(int valeur) {
+		return (int)(valeur*ratio);
+	}
 	public void displayData(ArrayList<CandleStick> data)
 	{
 		for (Pattern p : _patterns)
