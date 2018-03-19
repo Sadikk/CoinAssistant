@@ -26,6 +26,10 @@ public class BlackSpinningTop extends Pattern {
 	@Override
 	public int getPatternSize() {
 		return 1;
+		
+@Override
+public String getName() {return "BlackSpinningTop";}
+		
 	}
 	@Override
 	public Color getColor(){return patternColor;}
