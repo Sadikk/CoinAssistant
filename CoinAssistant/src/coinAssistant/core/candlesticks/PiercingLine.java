@@ -24,7 +24,15 @@ public class PiercingLine extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "PiercingLine";}
+	public String getName() {return "La Pénétrante";}
+	
+	@Override
+	public String getDescription() {
+		return "La structure en pénétrante haussière est formée de deux chandeliers japonais. "
+				+ "Le premier chandelier est un long baissier suivi d'un deuxième grand chandelier "
+				+ "haussier. L'ouverture du 2ème chandelier se fait sur un gap baissier et la "
+				+ "clôture intervient au dessus du point médian du corps du premier chandelier.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

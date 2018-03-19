@@ -38,7 +38,15 @@ public class Twin extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "Twin";}
+	public String getName() {return "Les jumeaux blancs";}
+	
+	@Override
+	public String getDescription() {
+		return "Les jumeaux blancs est une structure formée de trois chandeliers japonais. "
+				+ "Le premier est un chandelier haussier suivi de deux autres chandeliers "
+				+ "haussiers après un gap haussier. Les deux derniers chandeliers ouvrent et "
+				+ "clôturent approximativement au même niveau.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

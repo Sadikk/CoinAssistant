@@ -31,7 +31,13 @@ public class AbandonedBaby extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
-	public String getName() {return "AbandonedBaby";}
+	public String getName() {return "Le Bébé abandonné";}
+	
+	@Override
+	public String getDescription() {
+		return ("Bébé abandonné intervient soir après une phase haussière ou une pahe baissière."
+				+ " C'est une figure d'arret qui est formé de 3 chandeliers");
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

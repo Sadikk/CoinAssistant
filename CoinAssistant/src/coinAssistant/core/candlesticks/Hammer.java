@@ -22,7 +22,16 @@ public class Hammer extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "Hammer";}
+	public String getName() {return "Le marteau";}
+	
+	@Override
+	public String getDescription() {
+		return "Le marteau est une structure formée d'un seul chandelier japonais. "
+				+ "Le chandelier dispose d'un petit corps, haussier ou baissier, avec une "
+				+ "grande mèche basse dont la taille doit être au moins égale à deux fois "
+				+ "le corps. Le cours de clôture du chandelier suivant doit être supérieur "
+				+ "au point haut du marteau.";}
+	
 	
 	@Override
 	public Color getColor(){return patternColor;}

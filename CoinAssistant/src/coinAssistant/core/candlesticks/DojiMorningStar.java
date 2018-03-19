@@ -32,7 +32,16 @@ public class DojiMorningStar extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
-	public String getName() {return "DojiMorningStar";}
+	public String getName() {return "Etoile du Matin Doji";}
+	
+	@Override
+	public String getDescription() {
+		return "Structure de renversement de creux, c'est une configuration rare formée "
+				+ "de trois chandeliers : le premier est un grand chandelier baissier plein,"
+				+ " le second un marteau noir marquant un nouveau plus-bas et qui clôture "
+				+ "au-dessus de la clôture de la première bougie, et le troisième est un "
+				+ "très petit chandelier blanc.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

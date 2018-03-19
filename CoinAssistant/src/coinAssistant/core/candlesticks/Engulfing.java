@@ -33,8 +33,14 @@ public class Engulfing extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "Engulfing";}
-		
+	public String getName() {return "L'avalement";}
+	
+	@Override
+	public String getDescription() {
+		return "Un avalement est composé d’un petit chandelier suivie d’un grand chandelier "
+				+ "qui doit l’englober dans sa totalité. Quel que soit le mouvement de marché, "
+				+ "il doit être composé de deux chandelier de couleurs différentes.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

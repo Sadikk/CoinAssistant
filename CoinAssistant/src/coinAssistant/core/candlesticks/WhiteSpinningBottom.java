@@ -29,7 +29,15 @@ public class WhiteSpinningBottom extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "WhiteSpinningBottom";}
+	public String getName() {return "Le creux blanc en Toupie";}
+	
+	@Override
+	public String getDescription() {
+		return "Ligne de chandelier unique qui apparait après une tendance baissière "
+				+ "significative. Structure qui possède un pet corps blanc, deux ombres "
+				+ "dont chacune est plus longue que le corps, et un plus bas inférieur à "
+				+ "celui du chandelier antérieur.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

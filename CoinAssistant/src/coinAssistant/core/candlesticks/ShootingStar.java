@@ -21,7 +21,17 @@ public class ShootingStar extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "ShootingStar";}
+	public String getName() {return "Etoile Filante";}
+	
+	@Override
+	public String getDescription() {
+		return "L'étoile filante est une structure formée d'un seul chandelier japonais. "
+				+ "Le chandelier dispose d'un petit corps, haussier ou baissier, avec une "
+				+ "grande mèche haute dont la taille doit être au moins égale à deux fois le "
+				+ "corps. Le cours de clôture du chandelier suivant doit être inférieur au "
+				+ "point bas du l'étoile filante.";
+	}
+	
 	
 	@Override
 	public Color getColor(){return patternColor;}

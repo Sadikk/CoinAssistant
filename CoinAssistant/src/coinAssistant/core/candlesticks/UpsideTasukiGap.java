@@ -28,7 +28,17 @@ public class UpsideTasukiGap extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
-	public String getName() {return "UpsideTasukiGap";}
+	public String getName() {return "Le Gap Tasuki Ascendant";}
+	
+	@Override
+	public String getDescription() {
+		return "Structure rare de continuation formée de trois chandeliers. Dans le cadre "
+				+ "d'un marché haussier, le tasuki gap ascendant se forme lorsqu'un chandelier "
+				+ "haussier creuse un fossé ascendant au-dessus du haussier précédent. "
+				+ "Cette deuxième bougie est suivie d'un chandelier baissier, approximativement "
+				+ "de la même taille, qui ouvre dans le corps du chandelier précédent et qui "
+				+ "clôture ensuite au-dessous de ce corps.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

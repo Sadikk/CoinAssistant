@@ -30,7 +30,17 @@ public class DownsideTasukiGap extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
-	public String getName() {return "DownsideTasukiGap";}
+	public String getName() {return "Le Gap Tasuki Descendant";}
+	
+	@Override
+	public String getDescription() {
+		return "Structure de continuation formée de trois chandeliers. "
+				+ "Dans un marché baissier, elle se forme lorsqu'un chandelier baissier "
+				+ "creuse un fossé descendant au-dessous du chandelier baissier précédent. "
+				+ "Ce deuxième chandelier est suivie d'un haussier, approximativement de la "
+				+ "même taille, qui ouvre dans le corps noir du chandelier précédent et qui "
+				+ "clôture ensuite au-dessus de ce corps.";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

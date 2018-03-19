@@ -29,7 +29,15 @@ public class BlackSpinningTop extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "BlackSpinningTop";}
+	public String getName() {return "Le Sommet Noir en Toupie";}
+	
+	@Override
+	public String getDescription() {
+		return "Ligne de chandelier unique qui apparait après une tendance haussière"
+				+ " significative. Structure possédant un petit corps noir, deux ombres dont "
+				+ "chacune est plus longue que le corps, et un plus haut supérieur à celui "
+				+ "du chandelier antérieur.";
+	} 
 	
 	@Override
 	public Color getColor(){return patternColor;}

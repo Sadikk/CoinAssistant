@@ -32,7 +32,16 @@ public class DojiEveningStar extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
-	public String getName() {return "DojiEveningStar";}
+	public String getName() {return "Etoile du Soir Doji";}
+	
+	@Override
+	public String getDescription() {
+		return " La structure en étoile du soir est formée de trois chandeliers japonais. "
+				+ "Le premier est un grand chandelier haussier plein suivi d'un petit "
+				+ "chandelier haussier ou baissier dont la clôture se fait au dessus du "
+				+ "premier chandelier. Le troisième chandelier est un très petit chandelier "
+				+ "haussier plein.";
+		}
 	
 	@Override
 	public Color getColor(){return patternColor;}

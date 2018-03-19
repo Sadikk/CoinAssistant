@@ -28,7 +28,16 @@ public class DarkCloudCover extends Pattern{
 	public int getPatternSize() {return taillePattern;}
 	
 	@Override
-	public String getName() {return "DarkCloudCover";}
+	public String getName() {return "La Couverture en Nuage Noir";}
+	
+	@Override
+	public String getDescription() {
+		return "La couverture en nuage noir est une structure formée de deux chandeliers "
+				+ "japonais. Le premier chandelier est un long haussier suivi d'un deuxième"
+				+ " grand chandelier baissier. L'ouverture du 2ème chandelier se fait sur "
+				+ "un gap haussier et la clôture intervient en dessous du point médian du"
+				+ " corps du premier chandelier";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

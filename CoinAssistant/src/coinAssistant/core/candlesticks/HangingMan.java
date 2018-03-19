@@ -22,7 +22,16 @@ public class HangingMan extends Pattern {
 	}
 	
 	@Override
-	public String getName() {return "HangingMan";}
+	public String getName() {return "Le pendu";}
+	
+	@Override
+	public String getDescription() {
+		return " Le pendu est une structure formée d'un seul chandelier japonais. "
+				+ "Le chandelier dispose d'un petit corps, haussier ou baissier, avec une "
+				+ "grande mèche basse dont la taille doit être au moins égale à deux fois "
+				+ "le corps. Le cours de clôture du chandelier suivant doit être inférieur au "
+				+ "point bas du pendu";
+	}
 	
 	@Override
 	public Color getColor(){return patternColor;}

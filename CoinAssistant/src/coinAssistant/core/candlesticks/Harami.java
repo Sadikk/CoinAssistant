@@ -28,5 +28,12 @@ public class Harami extends Pattern{
 	public String getName() {return "Harami";}
 	
 	@Override
+	public String getDescription() {
+		return "Le harami haussier est un chandelier baissier engloutissant un petit "
+				+ "chandelier haussier, donnant un signe d'un renversement de la tendance à "
+				+ "la baisse.";
+	}
+	
+	@Override
 	public Color getColor(){return patternColor;}
 }
