@@ -66,7 +66,8 @@ public abstract class CandleStickChartView {
 				
 		rapportY=(double)(height)/(vMax-vMin);
 		
-		//showPatternV1(c,data);
+		//
+		showPatternV1(c,data);
 		
 		//on trace les barres
 		Graphics g=current.getGraphics();

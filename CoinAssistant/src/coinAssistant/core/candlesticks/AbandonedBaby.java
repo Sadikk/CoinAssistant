@@ -23,7 +23,7 @@ public class AbandonedBaby extends Pattern{
 		return (first.getLow()>second.getHigh()//parent avant
 		&& third.getLow()>second.getHigh()); //parent après
 			
-		
+		//todo in a uptrend it is inversed !
 	
 	}
 	
@@ -35,7 +35,7 @@ public class AbandonedBaby extends Pattern{
 	
 	@Override
 	public String getDescription() {
-		return ("Bébé abandonné intervient soir après une phase haussière ou une pahe baissière."
+		return ("Bébé abandonné intervient soir après une phase haussière ou une phase baissière."
 				+ " C'est une figure d'arret qui est formé de 3 chandeliers");
 	}
 	

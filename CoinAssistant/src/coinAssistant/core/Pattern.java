@@ -40,5 +40,10 @@ public abstract class Pattern {
 	public abstract String getDescription();
 	
 	public abstract Color getColor();
+	
+	public String toString()
+	{
+		return getName() + " : " + getDescription();
+	}
 	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/
 }

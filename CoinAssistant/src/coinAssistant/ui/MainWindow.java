@@ -1,9 +1,11 @@
 package coinAssistant.ui;
 
 import javax.swing.JFrame;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
 import java.awt.GridBagConstraints;
@@ -15,12 +17,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -29,9 +34,9 @@ import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 import coinAssistant.core.ReflectionHelper;
 
-public class MainWindow extends JFrame implements ItemListener{
+public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	
-	//dimensionnement de la fenêtre
+	//dimensionnement de la fenï¿½tre
 	int sizeXinit=1800;
 	int sizeYinit=1200;
 	int sizeX;
@@ -49,10 +54,10 @@ public class MainWindow extends JFrame implements ItemListener{
     private JLabel trendTitle;
     private JLabel actuatorTitle;
     private JLabel graphTitle;
-    private JLabel timeDetection;
-    private JLabel forcePattern;
+    private JLabel patternName;
+    private JLabel patternDescription;
     private JLabel lengthPattern;
-    private JLabel comparison;
+    private JLabel patternThumb;
     private JLabel explanationInterpretation;
     private JLabel conclusion;
     private JLabel sumIndicator;
@@ -114,15 +119,15 @@ public class MainWindow extends JFrame implements ItemListener{
 	    descriptionContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300))); 
 	    descriptionContainer.setBorder(BorderFactory.createTitledBorder("Description du pattern selectionne"));
 	    
-	    timeDetection = new JLabel("<html>-temps auquel le pattern est detecte</html>");        
-	    forcePattern = new JLabel("<html>-force du pattern</html>");        
-	    lengthPattern = new JLabel("<html>-longueur du pattern</html>");        
-	    comparison = new JLabel("<html>-caracteristiques de comparaison des differents indicateurs</html>");        
+	    patternName = new JLabel("<html>-Nom du pattern</html>");        
+	    patternDescription = new JLabel("<html>-Description du pattern</html>");        
+	    lengthPattern = new JLabel("<html>-Longueur du pattern</html>");        
+	    patternThumb = new JLabel("<html>-Image modÃ¨le</html>");        
 	    
-	    descriptionContainer.add(timeDetection);
-	    descriptionContainer.add(forcePattern);
+	    descriptionContainer.add(patternName);
+	    descriptionContainer.add(patternDescription);
 	    descriptionContainer.add(lengthPattern);
-	    descriptionContainer.add(comparison);
+	    descriptionContainer.add(patternThumb);
 	    
 	    
 	    
@@ -173,6 +178,7 @@ public class MainWindow extends JFrame implements ItemListener{
 	    graphContainer.setPreferredSize(new Dimension(toRelative(900),toRelative( 600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
+	    graphContainer.addListener(this);
 	    
 	  
 	    mainContainer = new JPanel();
@@ -240,6 +246,29 @@ public class MainWindow extends JFrame implements ItemListener{
           displayData(new ArrayList<CandleStick>(_binance.getCandlesticks(item.toString(), null)));
        }
     }      
+	
+	/* *  * 
+	 * @see coinAssistant.ui.PatternListener#patternHovered(coinAssistant.core.Pattern)
+	 */
+	public void patternHovered(Pattern pattern)
+	{
+		patternName.setText("<html> Nom : " + pattern.getName() + "</html>");
+		lengthPattern.setText("<html> Taille : " + pattern.getPatternSize() + "</html>");
+		patternDescription.setText("<html> Description : " + pattern.getDescription() + "</html>");
+		try {
+			System.out.println(pattern.getClass().getSimpleName()); //not working
+			patternThumb.setIcon(new ImageIcon(ImageIO.read(
+			        getClass().getResource("/resources/" + pattern.getClass().getSimpleName() + ".png"))));
+		} catch (IOException e) {
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			String exception = sw.toString();
+			JOptionPane.showMessageDialog(null, 
+                    "Une erreur est survenue lors de l'affichage d'une image de pattern. Error : " + e.getMessage() + "-- Stacktrace :" + exception, 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+		}
+	}
 	
 
 	public static void main(String[] args) { 

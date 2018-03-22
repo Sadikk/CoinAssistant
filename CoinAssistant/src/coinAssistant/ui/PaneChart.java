@@ -8,6 +8,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -26,6 +27,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	BufferedImage chart;
 	int ySlider;
 	int nbPatternVisible=40;
+	private List<PatternListener> listeners;
 	
 	/**
 	 *  crée le JPanel affichant le graphique
@@ -37,7 +39,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		height=h;
 		this.setPreferredSize(new Dimension(width,height));
 		this.setLayout(null);
-		
+		listeners = new ArrayList<PatternListener>();
 		selectionSection=new JSlider();
 		ySlider=(int)(height*0.9);
 		selectionSection.setBounds((int)(width*0.1),ySlider,(int)(width*0.8),height-ySlider);
@@ -49,7 +51,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		this.setBackground(Color.white);
 		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);		
 		//debug   
-		//this.addMouseListener(this);
+		//this.addMouseMotionListener(this);
 		//
 	}
 	
@@ -68,6 +70,14 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		 * a enlever, l'affichage du chart avant de bouger le curseur, donc je le force ici
 		 */
 	}
+	
+	/**
+	 * 	Ajoute un listener à la liste des listeners
+	 * @param toAdd	instance de PatternListener à ajouter
+	 */
+	public void addListener(PatternListener toAdd) {
+        listeners.add(toAdd);
+    }
 	
 	/**
 	 * utilise la classe CandleStickChartView pour mettre à jour le graphique
@@ -112,7 +122,13 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 		if(e.getY()<ySlider) {
 			int rank=(int)((double)(e.getX())/(double)(CandleStickChartView.largDivX));
-			
+			if (data.get(rank).getPatterns() != null && data.get(rank).getPatterns().size() > 0)
+			{
+			 	for (PatternListener listener : listeners)
+			 		listener.patternHovered(data.get(rank).getPatterns().getFirst());
+				System.out.println(data.get(rank).getPatterns().getFirst());
+			}	
+				
 		}
 	}
 	public void mouseDragged(MouseEvent e) {}
