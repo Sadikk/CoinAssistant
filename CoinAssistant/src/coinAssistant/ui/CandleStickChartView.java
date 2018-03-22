@@ -39,8 +39,6 @@ public abstract class CandleStickChartView {
 		return createChart(current,data);
 	}
 	
-	
-	
 	/**
 	 * crée une image representant les données en entrées, superposées au graphique
 	 * @param c 		image utilisée pour l'affichage
@@ -75,7 +73,7 @@ public abstract class CandleStickChartView {
 			//tracé de la ligne min-max
 			int abscisse=(int)((i+0.5)*largDivX);
 			g.setColor(Color.black);
-			g.drawLine(abscisse, height-(int)((candle.getLow()-vMin)*rapportY), abscisse, height-(int)((candle.getHigh()-vMin)*rapportY));
+			g.drawLine(abscisse, mapValueYtoGraph(candle.getLow()), abscisse, mapValueYtoGraph(candle.getHigh()));
 			//barre du haut
 			//g.drawLine(abscisse-largCandle, height-(int)((candle.getHigh()-vMin)*rapportY), abscisse+largCandle, height-(int)((candle.getHigh()-vMin)*rapportY));
 			//barre du bas
@@ -89,14 +87,17 @@ public abstract class CandleStickChartView {
 			if(candle.isAscend()) {g.setColor(new Color(140,193,118));}
 			else {g.setColor(new Color(184,44,12));}
 			//boites
-			g.fillRect(abscisse-largCandle,height-(int)((max-vMin)*rapportY),largCandle*2,(int)((max-min)*rapportY));
+			g.fillRect(abscisse-largCandle,mapValueYtoGraph(max),largCandle*2,(int)((max-min)*rapportY));
 			//contour de la boite
 			g.setColor(Color.black);
-			g.drawRect(abscisse-largCandle,height-(int)((max-vMin)*rapportY),largCandle*2,(int)((max-min)*rapportY));
+			g.drawRect(abscisse-largCandle,mapValueYtoGraph(max),largCandle*2,(int)((max-min)*rapportY));
 		}
-		showPatternV2(current,data);
+		showPatternBox(current,data);
 		addLegend(current,rapportY,vMin,vMax);
 		return current;	
+	}
+	public static int mapValueYtoGraph(double value) {
+		return height-(int)((value-vMin)*rapportY);
 	}
 	
 	public static void addLegend(BufferedImage c, double rapportY,double vMin,double vMax) {
@@ -128,13 +129,14 @@ public abstract class CandleStickChartView {
 		}
 		return ordre;
 	}
+	
 	/**
 	 * met en valeur les patterns reconnus en surlignant avec transparence le fond
 	 * s'utilise avant l'affichage des candlesticks pour ne pas les affecter
 	 * @param c			l'image sur laquelle superposer les calques
 	 * @param data		les données associées
 	 */
-	public static void showPatternV1(BufferedImage c,ArrayList<CandleStick> data) {
+	public static void showPatternOver(BufferedImage c,ArrayList<CandleStick> data) {
 		Graphics g=c.getGraphics();
 		
 		for (int i=0;i<data.size();i++) {
@@ -161,7 +163,7 @@ public abstract class CandleStickChartView {
 	 * @param c			l'image sur laquelle superposer les marques
 	 * @param data		les données associées
 	 */
-	public static void showPatternV2(BufferedImage c,ArrayList<CandleStick> data) {
+	public static void showPatternLines(BufferedImage c,ArrayList<CandleStick> data) {
 		Graphics2D g=(Graphics2D)c.getGraphics();
 		BasicStroke line = new BasicStroke(4.0f);
 		g.setStroke(line);
@@ -186,6 +188,39 @@ public abstract class CandleStickChartView {
 			}
 		}
 	}
+	
+	
+	public static void showPatternBox(BufferedImage c,ArrayList<CandleStick> data) {
+		Graphics2D g=(Graphics2D)c.getGraphics();
+		BasicStroke line = new BasicStroke(2.0f);
+		g.setStroke(line);
+		
+		for (int i=0;i<data.size();i++) {
+			CandleStick candle=data.get(i);
+			if (candle.getPatterns() != null)
+			{
+				for(Pattern p :candle.getPatterns()) {
+					if(p.getPatternSize()<data.size()-i) {//protège la methode d'input invalides avec pattern reconnus en dehors de la liste
+						g.setColor(p.getColor());
+						
+						//on cherche les positions exactes des rectangles à dessiner
+						double vMinLocal=candle.getLow();
+						double vMaxLocal=candle.getHigh();
+						for(int r=i;r<i+p.getPatternSize();r++){
+							vMinLocal=Math.min(vMinLocal, data.get(r).getLow());
+							vMaxLocal=Math.max(vMaxLocal, data.get(r).getHigh());
+						}
+						//on aère un peu le graphe:
+						vMinLocal-=(int)((vMaxLocal-vMinLocal)*0.2);
+						vMaxLocal+=(int)((vMaxLocal-vMinLocal)*0.2);
+						g.drawRect(largDivX*i, mapValueYtoGraph(vMaxLocal), largDivX*p.getPatternSize(),(int)((vMaxLocal-vMinLocal)*rapportY));
+					}
+				}
+			}
+		}
+	}
+	
+	
 	private static int firstRangeAvailable(boolean [] tab) {
 		for(int i=0;i<tab.length;i++) {
 			if(!tab[i]) {return i;}
