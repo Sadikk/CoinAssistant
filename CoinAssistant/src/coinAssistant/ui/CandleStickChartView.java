@@ -20,7 +20,7 @@ public abstract class CandleStickChartView {
 	static double rapportY=0;  
 	static double vMin=0;
 	static double vMax=0;
-	static int largCandle=0;
+	static int largCandle=0;	
 	
 	/**
 	 * crée une image representant les données en entrée, aux dimensions choisies
@@ -66,8 +66,7 @@ public abstract class CandleStickChartView {
 				
 		rapportY=(double)(height)/(vMax-vMin);
 		
-		//
-		showPatternV1(c,data);
+		//showPatternV1(c,data);
 		
 		//on trace les barres
 		Graphics g=current.getGraphics();
@@ -111,15 +110,18 @@ public abstract class CandleStickChartView {
 			g.fillRect(8, hBox-15, 30, 15);
 			g.setColor(Color.black);
 			g.drawRect(8, hBox-15, 30, 15);
-			String toDisplay=Double.toString(Math.round((vMin+i*pas)*100.0/Math.pow(10, order))/100.0);
+			double valToDisplay=Math.round((vMin+i*pas)*100.0/Math.pow(10, order))/100.0;
+			//System.out.println(debugToDisplay+" "+Math.pow(10, order)+" "+order+" "+vMin);
+			String toDisplay=Double.toString(valToDisplay);
 			g.drawString(toDisplay,10,hBox);
 		}
 		
 	}
+	
 	private static int calculOrder(double vMin) {
 		int ordre=0;
-		while(vMin/(double)Math.pow(10, ordre)>0 && vMin/(double)Math.pow(10, ordre)<10) {
-			if(vMin/(double)Math.pow(10, ordre)<0) {
+		while(vMin/(double)Math.pow(10, ordre)<1 || vMin/(double)Math.pow(10, ordre)>10) {
+			if((vMin/(double)Math.pow(10, ordre))<1) {
 				ordre--;
 			}
 			else {ordre++;}
@@ -192,3 +194,4 @@ public abstract class CandleStickChartView {
 		return -1;
 	}
 }
+
