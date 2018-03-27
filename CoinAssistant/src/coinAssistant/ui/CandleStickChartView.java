@@ -102,7 +102,7 @@ public abstract class CandleStickChartView {
 	
 	public static void addLegend(BufferedImage c, double rapportY,double vMin,double vMax) {
 		Graphics g=c.getGraphics();
-		final int NB_GRAD=10;
+		final int NB_GRAD=8;
 		double pas=(vMax-vMin)/(double)NB_GRAD;
 		int order=calculOrder(vMin);
 		for(int i=0;i<NB_GRAD;i++) {
@@ -116,6 +116,7 @@ public abstract class CandleStickChartView {
 			String toDisplay=Double.toString(valToDisplay);
 			g.drawString(toDisplay,10,hBox);
 		}
+		g.drawString("X10^("+order+")",10,20);
 		
 	}
 	

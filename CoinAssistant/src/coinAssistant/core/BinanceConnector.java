@@ -15,7 +15,7 @@ import com.webcerebrium.binance.datatype.*;
 
 public class BinanceConnector {
 	private BinanceApi client;
-	
+	private BinanceInterval timeInterval;
 	public BinanceConnector(){
 		client = new BinanceApi();	
 	}
@@ -30,6 +30,7 @@ public class BinanceConnector {
 		if (interval == null)
 			interval = BinanceInterval.FIVE_MIN;
 		try {
+		    timeInterval=interval;
 			binanceSymbol = new BinanceSymbol(symbol);
 		 
 			List<BinanceCandlestick> data = client.klines(binanceSymbol, interval, 100, null);
@@ -75,6 +76,10 @@ public class BinanceConnector {
 		}
 		return null;
 	}
-	
+	public int getIntervalInMin() {
+	    String s=timeInterval.getValue();
+	    s=s.split("m")[0];
+	    return Integer.valueOf(s);
+	    }
 	
 }

@@ -15,6 +15,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import coinAssistant.core.BinanceConnector;
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 public class PaneChart extends JPanel implements ChangeListener,MouseMotionListener{
@@ -49,10 +50,9 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		this.add(selectionSection);
 		
 		this.setBackground(Color.white);
-		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);		
-		//debug   
-		//this.addMouseMotionListener(this);
-		//
+		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);	
+		   
+		this.addMouseMotionListener(this);
 	}
 	
 	/**
@@ -60,12 +60,16 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @param dataIn	les données à afficher
 	 */
 	public void setData(ArrayList<CandleStick> dataIn ) {
+	    
 		this.data=dataIn;
 		this.update(this.getGraphics());
+		
 		this.refreshImage();
 		this.refreshDisplay();
 		
 		stateChanged(new ChangeEvent(selectionSection));
+		//selectionSection.revalidate();
+		
 		/**
 		 * a enlever, l'affichage du chart avant de bouger le curseur, donc je le force ici
 		 */
@@ -120,7 +124,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		if(e.getY()<ySlider) {
+		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0) {
 			int rank=(int)((double)(e.getX())/(double)(CandleStickChartView.largDivX));
 			if (data.get(rank).getPatterns() != null && data.get(rank).getPatterns().size() > 0)
 			{
