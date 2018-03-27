@@ -42,4 +42,29 @@ public class WhiteSpinningBottom extends Pattern {
 	@Override
 	public Color getColor(){return patternColor;}
 
+	@Override
+	public double getInterpretation() {
+		return 0.5;
+	}
+
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new WhiteSpinningBottom(data, rank);
+	}
+	
+	public WhiteSpinningBottom()
+	{
+	}
+	
+	public WhiteSpinningBottom(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
 }

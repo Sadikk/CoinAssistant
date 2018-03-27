@@ -9,7 +9,7 @@ import coinAssistant.core.Pattern;
 public class DownsideTasukiGap extends Pattern{
 	static private int taillePattern=3;
 	static private Color patternColor=Color.lightGray;
-	public DownsideTasukiGap() {}
+
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		CandleStick first=data.get(rg);
@@ -44,6 +44,29 @@ public class DownsideTasukiGap extends Pattern{
 	
 	@Override
 	public Color getColor(){return patternColor;}
+	@Override
+	public double getInterpretation() {
+		return -0.75;
+	}
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new DownsideTasukiGap(data, rank);
+	}
+	
+	public DownsideTasukiGap()
+	{
+	}
+	
+	public DownsideTasukiGap(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
 }
 
 //source : https://hitandruncandlesticks.com/downside-tasuki-gap/

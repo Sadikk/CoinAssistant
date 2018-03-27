@@ -9,7 +9,7 @@ import coinAssistant.core.Pattern;
 public class DarkCloudCover extends Pattern{
 	static private int taillePattern=3;
 	static private Color patternColor=Color.darkGray;
-	public DarkCloudCover() {}
+	
 	
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
@@ -41,6 +41,32 @@ public class DarkCloudCover extends Pattern{
 	
 	@Override
 	public Color getColor(){return patternColor;}
+
+	@Override
+	public double getInterpretation() {
+		return -1;
+	}
+
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new DarkCloudCover(data, rank);
+	}
+	
+	public DarkCloudCover()
+	{
+	}
+	
+	public DarkCloudCover(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
 }
 
 //source : http://www.onlinetradingconcepts.com/TechnicalAnalysis/Candlesticks/DarkCloudCover.html

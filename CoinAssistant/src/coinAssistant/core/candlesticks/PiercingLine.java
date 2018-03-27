@@ -37,4 +37,30 @@ public class PiercingLine extends Pattern {
 	@Override
 	public Color getColor(){return patternColor;}
 
+	@Override
+	public double getInterpretation() {
+		return 0.8;
+	}
+
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new PiercingLine(data, rank);
+	}
+	
+	public PiercingLine()
+	{
+	}
+	
+	public PiercingLine(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
+
 }
