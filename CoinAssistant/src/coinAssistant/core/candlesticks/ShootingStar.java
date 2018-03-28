@@ -36,4 +36,30 @@ public class ShootingStar extends Pattern {
 	@Override
 	public Color getColor(){return patternColor;}
 
+	@Override
+	public double getInterpretation() {
+		return data.get(rank).isAscend() ? 0.9 : -0.9;
+	}
+
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new ShootingStar(data, rank);
+	}
+	
+	public ShootingStar()
+	{
+	}
+	
+	public ShootingStar(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
+
 }

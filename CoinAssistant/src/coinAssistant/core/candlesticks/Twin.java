@@ -51,4 +51,30 @@ public class Twin extends Pattern {
 	@Override
 	public Color getColor(){return patternColor;}
 
+	@Override
+	public double getInterpretation() {
+		return data.get(rank).isAscend() ? 1 : -1;
+	}
+
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new Twin(data, rank);
+	}
+	
+	public Twin()
+	{
+	}
+	
+	public Twin(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
+
 }

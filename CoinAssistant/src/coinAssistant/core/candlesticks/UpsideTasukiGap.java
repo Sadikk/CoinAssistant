@@ -7,7 +7,7 @@ import coinAssistant.core.*;
 public class UpsideTasukiGap extends Pattern{
 	static private Color patternColor=new Color(93,242,23);
 	static private int taillePattern=3;
-	public UpsideTasukiGap() {}
+	
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
 		CandleStick first=data.get(rg);
@@ -42,6 +42,29 @@ public class UpsideTasukiGap extends Pattern{
 	
 	@Override
 	public Color getColor(){return patternColor;}
+	@Override
+	public double getInterpretation() {
+		return 0.75;
+	}
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new UpsideTasukiGap(data, rank);
+	}
+	
+	public UpsideTasukiGap()
+	{
+	}
+	
+	public UpsideTasukiGap(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
 }
 
 //source : https://hitandruncandlesticks.com/downside-tasuki-gap/

@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
@@ -221,7 +222,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    gbc.gridwidth = 3;
 	  //  gbc.gridwidth = GridBagConstraints.REMAINDER;
 	    mainContainer.add(trendContainer, gbc);
-	    
+	    System.out.println(System.getProperty("user.dir"));
 	    setContentPane(mainContainer);
 	    pack();
 	    setVisible(true);
@@ -256,9 +257,9 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		lengthPattern.setText("<html> Taille : " + pattern.getPatternSize() + "</html>");
 		patternDescription.setText("<html> Description : " + pattern.getDescription() + "</html>");
 		try {
-			System.out.println(pattern.getClass().getSimpleName()); //not working
-			patternThumb.setIcon(new ImageIcon(ImageIO.read(
-			        getClass().getResource("/resources/" + pattern.getClass().getSimpleName() + ".png"))));
+			System.out.println(pattern.getClass().getSimpleName()); 
+			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
+			patternThumb.setIcon(new ImageIcon(ImageIO.read(input)));
 		} catch (IOException e) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));

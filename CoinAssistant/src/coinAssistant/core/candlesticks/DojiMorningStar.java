@@ -10,7 +10,6 @@ public class DojiMorningStar extends Pattern{
 	static private int taillePattern=3;
 	static private Color patternColor=Color.green;
 	final double RAPPORT_TAILLE=2;
-	public DojiMorningStar() {}
 	
 	@Override
 	public boolean isPatternPresent(ArrayList<CandleStick> data, int rg) {
@@ -45,4 +44,30 @@ public class DojiMorningStar extends Pattern{
 	
 	@Override
 	public Color getColor(){return patternColor;}
+	
+	@Override
+	public double getInterpretation() {
+		return 1;
+	}
+
+	@Override
+	public String getInterpretationText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {
+		return new DojiMorningStar(data, rank);
+	}
+	
+	public DojiMorningStar()
+	{
+	}
+	
+	public DojiMorningStar(ArrayList<CandleStick> data, int rank)
+	{
+		this.data = data;
+		this.rank = rank;
+	}
 }
