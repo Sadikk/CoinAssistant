@@ -1,34 +1,29 @@
 package coinAssistant.ui;
 
-import javax.swing.JFrame;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-
-import java.awt.GridBagConstraints;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JSlider;
 
 import coinAssistant.core.BinanceConnector;
 import coinAssistant.core.CandleStick;
@@ -66,6 +61,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
     private JLabel advice;
     private JLabel binarySetting;
     private JLabel continuousSetting;
+    private JSlider nbPatternOnScreen;
     
     private BinanceConnector _binance;
     private LinkedList<Pattern> _patterns;
@@ -151,7 +147,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    
 	    trendContainer.add(sumIndicator);
 	    trendContainer.add(globalConclusion);
-	    trendContainer.add(advice);
+	    trendContainer.add(advice);    
 	    
 	    
 	    actuatorContainer = Box.createVerticalBox();
@@ -164,6 +160,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    symbolBox.setPreferredSize(new Dimension(toRelative(200), toRelative(50)));
 	    symbolBox.setMaximumSize(new Dimension(toRelative(200), toRelative(50)));
 	    symbolBox.addItemListener((ItemListener) this);
+	    symbolBox.setSelectedIndex(0);
+	    symbolBox.revalidate();
 	    
 	    binarySetting= new JLabel("<html>Paire de cryptomonnaies a analyser : </html>");        
 	    continuousSetting = new JLabel("<html>-reglage continu : taille de l'intervalle de temps considere etc</html>");        
@@ -181,6 +179,12 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    graphContainer.addListener(this);
 	    
+	    //un peu sale, mais besoin du graphContainer pour ajouter la
+	    nbPatternOnScreen=new JSlider(0,100);
+	    nbPatternOnScreen.setPreferredSize(new Dimension(toRelative(500),toRelative(50)));
+	    nbPatternOnScreen.setMaximumSize(nbPatternOnScreen.getPreferredSize());
+	    nbPatternOnScreen.addChangeListener(graphContainer);
+	    actuatorContainer.add(nbPatternOnScreen);
 	  
 	    mainContainer = new JPanel();
 	    mainContainer.setLayout(new GridBagLayout());

@@ -15,7 +15,7 @@ import com.webcerebrium.binance.datatype.*;
 
 public class BinanceConnector {
 	private BinanceApi client;
-	private BinanceInterval timeInterval;
+	private static BinanceInterval timeInterval;
 	public BinanceConnector(){
 		client = new BinanceApi();	
 	}
@@ -76,10 +76,10 @@ public class BinanceConnector {
 		}
 		return null;
 	}
-	public int getIntervalInMin() {
+	public static int getIntervalInMin() {
 	    String s=timeInterval.getValue();
 	    s=s.split("m")[0];
 	    return Integer.valueOf(s);
-	    }
+	}
 	
 }

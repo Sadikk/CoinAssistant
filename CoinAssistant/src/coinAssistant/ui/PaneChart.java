@@ -26,8 +26,8 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	ArrayList<CandleStick> data;
 	JSlider selectionSection;
 	BufferedImage chart;
-	int ySlider;
-	int nbPatternVisible=10;
+	private int ySlider;
+	private int nbPatternVisible=50;
 	private List<PatternListener> listeners;
 	
 	/**
@@ -48,11 +48,15 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		selectionSection.setBackground(Color.lightGray);
 		selectionSection.addChangeListener(this);
 		this.add(selectionSection);
-		
 		this.setBackground(Color.white);
 		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);	
 		   
 		this.addMouseMotionListener(this);
+		//selectionSection.setPaintTrack(false);
+		//selectionSection.setMajorTickSpacing(10);
+		selectionSection.setPaintTicks(true);
+		selectionSection.setPaintLabels(true);
+		selectionSection.setInverted(true);
 	}
 	
 	/**
@@ -60,21 +64,22 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @param dataIn	les données à afficher
 	 */
 	public void setData(ArrayList<CandleStick> dataIn ) {
-	    
-		this.data=dataIn;
-		selectionSection.setValue(100);
-		this.update(this.getGraphics());
-		
-		this.refreshImage();
-		
-		this.refreshDisplay();
+	    if(dataIn!=null) {
+    	    selectionSection.setValue(0);
+    	    int interval=BinanceConnector.getIntervalInMin();
+    	    selectionSection.setMaximum(dataIn.size()*interval);
+    	    int bigSpan=(int)(interval*(double)(dataIn.size())/10.0);
+    	    selectionSection.setMajorTickSpacing(bigSpan);
+    		this.data=dataIn;
+    		this.update(this.getGraphics());
+    		this.refreshImage();
+    		this.refreshDisplay();
+	    }
 		
 		//stateChanged(new ChangeEvent(selectionSection));
 		//selectionSection.revalidate();
 		
-		/**
-		 * a enlever, l'affichage du chart avant de bouger le curseur, donc je le force ici
-		 */
+		
 	}
 	
 	/**
@@ -91,11 +96,12 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @see CandleStickChartView
 	 */
 	private void refreshImage() {
+	    if(data!=null){
 		//donne image finale avec tous les calculs
-		if(data.size()<=nbPatternVisible) {//si le nombre de données ne demande pas d'ajustements
+		if (data.size()<=nbPatternVisible) {//si le nombre de données ne demande pas d'ajustements
 			this.chart=CandleStickChartView.createChart(data,width,ySlider);
 		}
-		else {
+		else{
 			int etatSlider=selectionSection.getValue();
 			int rangeSlider=selectionSection.getMaximum()-selectionSection.getMinimum();
 			int startIndice=(int)((data.size()-nbPatternVisible)*((double)(etatSlider)/(double)(rangeSlider)));
@@ -103,6 +109,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 			ArrayList<CandleStick> listToDisplay=new ArrayList<CandleStick>(data.subList(startIndice,startIndice+nbPatternVisible));
 			this.chart=CandleStickChartView.createChart(listToDisplay,width,ySlider);
 		}
+	    }
 	}
 	
 	/**
@@ -121,8 +128,16 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @param e		démarré par curseur
 	 */
 	public void stateChanged(ChangeEvent e) {
-		this.refreshImage();
-		this.refreshDisplay();
+	    if(e.getSource().equals(selectionSection)) {
+	        this.refreshImage();
+	        this.refreshDisplay();
+	    }
+	    else {
+	        double prop=((JSlider)(e.getSource())).getValue()/100.0;
+	        this.setNumberVisible(prop);
+	        this.refreshImage();
+            this.refreshDisplay();
+	    }
 	}
 	
 	public void mouseMoved(MouseEvent e) {
@@ -152,5 +167,9 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		}
 		return result;
 		
+	}
+	
+	public void setNumberVisible(double prop) {
+	    if(data!=null) {this.nbPatternVisible=(int)(data.size()*prop);}
 	}
 }
