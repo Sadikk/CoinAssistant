@@ -46,7 +46,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	private Box descriptionContainer;
     private Box interpretationContainer;
     private Box trendContainer;
-    private PaneChart graphContainer;
+    private PaneChart graphContainer; 
     private Box actuatorContainer;
     private JPanel mainContainer;
     private JLabel descriptionTitle;
@@ -174,8 +174,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	   
 	    
 	    
-	    graphContainer = new PaneChart(toRelative(900), toRelative(600));
-	    graphContainer.setPreferredSize(new Dimension(toRelative(900),toRelative( 600)));
+	    graphContainer = new PaneChart(toRelative(1000), toRelative(600));
+	    graphContainer.setPreferredSize(new Dimension(toRelative(1000),toRelative(600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    graphContainer.addListener(this);

@@ -31,8 +31,9 @@ public abstract class CandleStickChartView {
 	 */
 	public static BufferedImage createChart(ArrayList<CandleStick> data, int w, int h) {
 		current=new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
-		current.getGraphics().setColor(Color.white);
-		current.getGraphics().fillRect(0, 0, width, height);
+		Graphics g=current.getGraphics();
+		g.setColor(Color.white);
+		g.fillRect(0, 0, width, height);
 		
 		width=w;
 		height=h;

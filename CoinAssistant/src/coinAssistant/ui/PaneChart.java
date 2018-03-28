@@ -27,7 +27,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	JSlider selectionSection;
 	BufferedImage chart;
 	int ySlider;
-	int nbPatternVisible=40;
+	int nbPatternVisible=10;
 	private List<PatternListener> listeners;
 	
 	/**
@@ -45,7 +45,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		ySlider=(int)(height*0.9);
 		selectionSection.setBounds((int)(width*0.1),ySlider,(int)(width*0.8),height-ySlider);
 		selectionSection.setOpaque(true);
-		selectionSection.setBackground(Color.white);
+		selectionSection.setBackground(Color.lightGray);
 		selectionSection.addChangeListener(this);
 		this.add(selectionSection);
 		
@@ -62,12 +62,14 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	public void setData(ArrayList<CandleStick> dataIn ) {
 	    
 		this.data=dataIn;
+		selectionSection.setValue(100);
 		this.update(this.getGraphics());
 		
 		this.refreshImage();
+		
 		this.refreshDisplay();
 		
-		stateChanged(new ChangeEvent(selectionSection));
+		//stateChanged(new ChangeEvent(selectionSection));
 		//selectionSection.revalidate();
 		
 		/**
