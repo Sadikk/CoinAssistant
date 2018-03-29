@@ -3,6 +3,7 @@ package coinAssistant.ui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -119,7 +120,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    patternName = new JLabel("<html>-Nom du pattern</html>");        
 	    patternDescription = new JLabel("<html>-Description du pattern</html>");        
 	    lengthPattern = new JLabel("<html>-Longueur du pattern</html>");        
-	    patternThumb = new JLabel("<html>-Image modèle</html>");        
+	    patternThumb = new JLabel();        
 	    
 	    descriptionContainer.add(patternName);
 	    descriptionContainer.add(patternDescription);
@@ -141,9 +142,9 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    trendContainer = Box.createVerticalBox();
 	    trendContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300)));
 	    trendContainer.setBorder(BorderFactory.createTitledBorder("Tendance Globale"));
-	    sumIndicator = new JLabel("<html>-somme de tous les indicateurs releves");        
-	    globalConclusion = new JLabel("<html>-conclusion sur la tendance globale");        
-	    advice = new JLabel("<html>-conseil a l'achat ou a la vente");        
+	    sumIndicator = new JLabel("<html>-Somme des pattern : </html>");        
+	    globalConclusion = new JLabel("<html>-conclusion sur la tendance globale</html>");        
+	    advice = new JLabel("<html>-conseil a l'achat ou a la vente</html>");        
 	    
 	    trendContainer.add(sumIndicator);
 	    trendContainer.add(globalConclusion);
@@ -238,8 +239,16 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	}
 	public void displayData(ArrayList<CandleStick> data)
 	{
-		for (Pattern p : _patterns)
+		double sum = 0.0;
+		for (Pattern p : _patterns) {
 			p.applyPattern(data);
+		}
+		for (CandleStick candle : data)
+			for (Pattern p : candle.getPatterns())
+				sum += p.getInterpretation();
+		sumIndicator.setText("<html>-Somme des pattern : " + Math.round(sum,) + "</html>");
+		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussière" : "Baissière"));
+		advice.setText("Conseil (warning : make your own diligence) : " + (sum > 0 ? "Achat" : "Vente"));
 		this.graphContainer.setData(data);
 	}
 	
@@ -259,14 +268,14 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		lengthPattern.setText("<html> Taille : " + pattern.getPatternSize() + "</html>");
 		patternDescription.setText("<html> Description : " + pattern.getDescription() + "</html>");
 		try {
-			System.out.println(pattern.getClass().getSimpleName()); 
+			//System.out.println(pattern.getClass().getSimpleName()); 
 			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
-			patternThumb.setIcon(new ImageIcon(ImageIO.read(input)));
+			patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(500), toRelative(400), Image.SCALE_DEFAULT)));
 		} catch (IOException e) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
 			String exception = sw.toString();
-			JOptionPane.showMessageDialog(null, 
+			JOptionPane.showMessageDialog(this, 
                     "Une erreur est survenue lors de l'affichage d'une image de pattern. Error : " + e.getMessage() + "-- Stacktrace :" + exception, 
                     "Erreur", 
                     JOptionPane.ERROR_MESSAGE);

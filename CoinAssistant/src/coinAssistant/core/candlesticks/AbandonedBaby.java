@@ -14,10 +14,10 @@ public class AbandonedBaby extends Pattern{
 	{
 	}
 	
-	public AbandonedBaby(ArrayList<CandleStick> data, int rank)
+	public AbandonedBaby(ArrayList<CandleStick> dat, int r)
 	{
-		this.data = data;
-		this.rank = rank;
+		this.data = dat;
+		this.rank = r;
 	}
 	
 	@Override
