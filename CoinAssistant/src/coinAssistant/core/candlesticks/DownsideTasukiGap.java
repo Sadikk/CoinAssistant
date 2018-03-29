@@ -50,7 +50,6 @@ public class DownsideTasukiGap extends Pattern{
 	}
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	@Override

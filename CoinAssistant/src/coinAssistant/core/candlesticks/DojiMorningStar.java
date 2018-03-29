@@ -52,8 +52,11 @@ public class DojiMorningStar extends Pattern{
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "L’étoile du matin prend forme suite à un mouvement baissier. "
+				+ "En effet, ce pattern indique un retournement baissier de l’action : "
+				+ "l’étoile signifie que les vendeurs hésitent d’enfoncer le clou à la baisse."
+				+ "Enfin, ce sont les acheteurs qui l'emportent et le cours entame une phase "
+				+ "de hausse.";
 	}
 
 	@Override

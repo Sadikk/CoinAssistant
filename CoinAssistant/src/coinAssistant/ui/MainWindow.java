@@ -169,10 +169,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    actuatorContainer.add(binarySetting);
 	    actuatorContainer.add(symbolBox);
 	    actuatorContainer.add(continuousSetting);
-	    
-	   
-	    
-	    
+	       
 	    graphContainer = new PaneChart(toRelative(1000), toRelative(600));
 	    graphContainer.setPreferredSize(new Dimension(toRelative(1000),toRelative(600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
@@ -198,18 +195,19 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    gbc.gridwidth = 6;
 	    mainContainer.add(graphContainer, gbc);
 	    
+	    gbc.gridx = 0; 
+	    gbc.fill = GridBagConstraints.BOTH;
+	    gbc.gridy = 6;
+	    gbc.gridwidth = 3;
+	    gbc.gridheight = 4;
+	    mainContainer.add(actuatorContainer, gbc);
+	    
 	    gbc.gridx = 7; 
+	    gbc.gridy = 0; 
 	    gbc.fill = GridBagConstraints.BOTH;
 	    gbc.gridwidth = GridBagConstraints.REMAINDER;
 	    gbc.gridheight = 5;
 	    gbc.anchor = GridBagConstraints.CENTER;
-	    mainContainer.add(actuatorContainer, gbc);
-	    
-	    gbc.gridx = 0; 
-	    gbc.fill = GridBagConstraints.BOTH;
-	    gbc.gridy = 6;
-	    gbc.gridheight = 4;
-	    gbc.gridwidth = 3;
 	    mainContainer.add(descriptionContainer, gbc);
 	    
 	    gbc.gridx = 3; 
