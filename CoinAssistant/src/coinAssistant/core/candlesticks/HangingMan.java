@@ -43,8 +43,8 @@ public class HangingMan extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Le pendu apparait au sein d'une tendance haussière et constitue un signe de renversement"
+				+ "baissier.";
 	}
 
 	@Override

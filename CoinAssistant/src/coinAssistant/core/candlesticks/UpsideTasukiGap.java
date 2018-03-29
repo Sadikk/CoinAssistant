@@ -48,8 +48,8 @@ public class UpsideTasukiGap extends Pattern{
 	}
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "C'est une figure de continuation haussière. Ce pattern est d'autant plus significatif qu'il"
+				+ "constitue le premier gap d'un mouvement haussier";
 	}
 	@Override
 	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {

@@ -49,7 +49,8 @@ public class BlackSpinningTop extends Pattern {
 	@Override
 	public String getInterpretationText() {
 		return "C'est une ligne de chandelier unique qui apparait après une tendance haussière. "
-				+ "Ce pattern indique qu'il y a une indécision entre acheteurs et vendeurs." ;
+				+ "Ce pattern indique qu'il y a une indécision entre acheteurs et vendeurs et est considéré"
+				+ "comme baissier si la séane suivante clôture à un plus bat niveau." ;
 	}
 
 	@Override

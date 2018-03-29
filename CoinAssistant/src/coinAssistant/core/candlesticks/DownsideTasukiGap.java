@@ -50,7 +50,9 @@ public class DownsideTasukiGap extends Pattern{
 	}
 	@Override
 	public String getInterpretationText() {
-		return null;
+		return "Ce pattern est une figure de continuation baissière, car les haussier nont pas réussi"
+				+ "à remplir le gap. Il est d'autant plus significatif"
+				+ "qu'il constitue le premier gap d'un mouvement baissier.";
 	}
 	@Override
 	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {

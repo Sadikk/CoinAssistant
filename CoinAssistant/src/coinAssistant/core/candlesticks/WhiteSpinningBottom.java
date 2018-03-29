@@ -33,8 +33,7 @@ public class WhiteSpinningBottom extends Pattern {
 	
 	@Override
 	public String getDescription() {
-		return "Ligne de chandelier unique qui apparait après une tendance baissière "
-				+ "significative. Structure qui possède un pet corps blanc, deux ombres "
+		return "Ligne de chandelier dont la structure qui possède un petit corps blanc, deux ombres "
 				+ "dont chacune est plus longue que le corps, et un plus bas inférieur à "
 				+ "celui du chandelier antérieur.";
 	}
@@ -49,8 +48,9 @@ public class WhiteSpinningBottom extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Ce pattern apparait à la suite d'une tendance baissière significative. Il indique"
+				+ "qu'il y a indécision entre acheteurs et vendeurs et est considéré comme haussier "
+				+ "si la séance suivante clôture à un plus haut niveau.";
 	}
 
 	@Override

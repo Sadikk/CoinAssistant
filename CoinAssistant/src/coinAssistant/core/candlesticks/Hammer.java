@@ -43,8 +43,8 @@ public class Hammer extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Le marteau apparait au sein d'une tendance haussière ; il est un signe de renversement"
+				+ "haussier. On dit qu'il martèle la baisser.";
 	}
 
 	@Override
