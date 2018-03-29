@@ -43,9 +43,9 @@ public class Twin extends Pattern {
 	@Override
 	public String getDescription() {
 		return "Les jumeaux blancs est une structure formée de trois chandeliers japonais. "
-				+ "Le premier est un chandelier haussier suivi de deux autres chandeliers "
-				+ "haussiers après un gap haussier. Les deux derniers chandeliers ouvrent et "
-				+ "clôturent approximativement au même niveau.";
+				+ "Le premier est un chandelier haussier (resp. baissier) suivi de deux autres chandeliers "
+				+ "haussiers (resp. baissiers) après un gap haussier (resp. descendant). Les deux derniers "
+				+ "chandeliers ouvrent et clôturent approximativement au même niveau.";
 	}
 	
 	@Override
@@ -58,8 +58,10 @@ public class Twin extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Ce pattern est considéré comme haussier s'il apparait à la suie d'un gap ascendant"
+				+ "dans un mouvement haussier. A l'inverse, les jumeaux blancs sont considérés comme "
+				+ "baissiers lorqu'ils apparaissent à la suite d'un gap descendant, au sein d'un mouvement"
+				+ " baissier.";
 	}
 
 	@Override

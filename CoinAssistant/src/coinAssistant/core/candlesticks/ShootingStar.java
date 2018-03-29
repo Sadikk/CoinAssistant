@@ -43,8 +43,9 @@ public class ShootingStar extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "L'étoile filante est une figure de retournement, elle indique un retournement de "
+				+ "tendance à la baisse. Cela traduit d'un marché suracheté où les vendeurs finissent "
+				+ "par prendre le dessus en fin de période.";
 	}
 
 	@Override

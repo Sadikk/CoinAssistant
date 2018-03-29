@@ -14,10 +14,10 @@ public class AbandonedBaby extends Pattern{
 	{
 	}
 	
-	public AbandonedBaby(ArrayList<CandleStick> data, int rank)
+	public AbandonedBaby(ArrayList<CandleStick> dat, int r)
 	{
-		this.data = data;
-		this.rank = rank;
+		this.data = dat;
+		this.rank = r;
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class AbandonedBaby extends Pattern{
 	@Override
 	public String getDescription() {
 		return ("Bébé abandonné intervient soir après une phase haussière ou une phase baissière."
-				+ " C'est une figure d'arret qui est formé de 3 chandeliers");
+				+ " C'est une figure rare d'arret qui est formé de 3 chandeliers");
 	}
 	
 	@Override
@@ -61,8 +61,10 @@ public class AbandonedBaby extends Pattern{
 	}
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Le bébé abandonné est une figure de retournement, elle indique un "
+		+ "retournement à la hausse (resp. à la baisse). Cela traduit d'un tour de force "
+		+ "des acheteurs pour contenir la pression baissière (resp. haussière) puis pour "
+		+ "faire capituler les vendeurs (resp. les acheteurs) dans un deuxième temps.";
 	}
 	@Override
 	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {

@@ -64,7 +64,9 @@ public class BinanceConnector {
 	public Set<String> getSymbols()
 	{
 		try {
-			return client.allBookTickersMap().keySet();
+			Set<String> result = client.allBookTickersMap().keySet();
+			result.remove("123456"); //don't know why binance returns 123456 in the list of crypto symbols... ?? 
+			return result;
 		} catch (BinanceApiException e) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));

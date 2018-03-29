@@ -28,10 +28,11 @@ public class PiercingLine extends Pattern {
 	
 	@Override
 	public String getDescription() {
-		return "La structure en pénétrante haussière est formée de deux chandeliers japonais. "
-				+ "Le premier chandelier est un long baissier suivi d'un deuxième grand chandelier "
-				+ "haussier. L'ouverture du 2ème chandelier se fait sur un gap baissier et la "
-				+ "clôture intervient au dessus du point médian du corps du premier chandelier.";
+		return "La structure en pénétrante baissière (resp. haussière) est formée de deux chandeliers "
+				+ "japonais. Le premier chandelier est un long haussier (resp. baissier) suivi d'un "
+				+ "deuxième grand chandelier baissier (resp. haussier). L'ouverture du 2ème chandelier "
+				+ "se fait sur un gap haussier (resp. baissier) et la clôture intervient en dessous "
+				+ "(resp. au dessus) du point médian du corps du premier chandelier.";
 	}
 	
 	@Override
@@ -44,8 +45,8 @@ public class PiercingLine extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "La pénétrante baissière (resp. haussière) est une configuration de retournement de "
+				+ "tendance ou une consolidation à la baisse (resp. à la hausse).";
 	}
 
 	@Override

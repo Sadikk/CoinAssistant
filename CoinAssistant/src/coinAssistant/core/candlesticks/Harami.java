@@ -28,9 +28,9 @@ public class Harami extends Pattern{
 	
 	@Override
 	public String getDescription() {
-		return "Le harami haussier est un chandelier baissier engloutissant un petit "
-				+ "chandelier haussier, donnant un signe d'un renversement de la tendance à "
-				+ "la baisse.";
+		return "Le harami est un chandelier dont le corps s'est constitué à l'intérieur du corps d'un"
+				+ "chandelier antérieur. Quel que soit le mouvement de marché, il doit être composé "
+				+ "de deux bougies de couleurs différentes.";
 	}
 	
 	@Override
@@ -43,8 +43,9 @@ public class Harami extends Pattern{
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Le harami haussier (resp. baissier) se forme suite à une mouvement baissier (resp. haussier)"
+				+ "important. En règle général, il vous indique que la baisse (resp. la hausse) de l'action"
+				+ "arrive à sa fin.";
 	}
 
 	@Override

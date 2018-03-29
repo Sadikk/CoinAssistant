@@ -49,8 +49,9 @@ public class DarkCloudCover extends Pattern{
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "La couverture en nuage noir est une figure de retournement, elle indique "
+				+ "un retournement de tendance à la baisse. Cela traduit la volonté des "
+				+ "vendeurs de défendre un niveau de prix. ";
 	}
 
 	@Override

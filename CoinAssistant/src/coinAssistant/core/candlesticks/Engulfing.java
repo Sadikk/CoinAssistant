@@ -50,8 +50,9 @@ public class Engulfing extends Pattern {
 	}
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "L'avalement haussier (resp. baissier) se forme suite à un mouvement baissier (resp. haussier)"
+				+ "significatif. En règle générale, vous arrivez à un creux (resp. sommet) du marché.";
+	
 	}
 	@Override
 	public Pattern buildInstance(ArrayList<CandleStick> data, int rank) {

@@ -52,8 +52,10 @@ public class DojiEveningStar extends Pattern{
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Ce pattern indique un changement de tendance. Suite à la hausse, le marché marque "
+				+ "un temps de réflexion avec la constitution d'un doji. L’étoile signifie que les "
+				+ "acheteurs hésitent à poursuivre la hausse. Enfin, ce sont les vendeurs"
+				+ "qui l'emportent et le cours entame une phase de baisse." ;
 	}
 
 	@Override

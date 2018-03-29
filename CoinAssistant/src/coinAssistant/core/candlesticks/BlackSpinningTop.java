@@ -33,8 +33,7 @@ public class BlackSpinningTop extends Pattern {
 	
 	@Override
 	public String getDescription() {
-		return "Ligne de chandelier unique qui apparait après une tendance haussière"
-				+ " significative. Structure possédant un petit corps noir, deux ombres dont "
+		return "Structure possédant un petit corps noir, deux ombres dont "
 				+ "chacune est plus longue que le corps, et un plus haut supérieur à celui "
 				+ "du chandelier antérieur.";
 	} 
@@ -49,8 +48,9 @@ public class BlackSpinningTop extends Pattern {
 
 	@Override
 	public String getInterpretationText() {
-		// TODO Auto-generated method stub
-		return null;
+		return "C'est une ligne de chandelier unique qui apparait après une tendance haussière. "
+				+ "Ce pattern indique qu'il y a une indécision entre acheteurs et vendeurs et est considéré"
+				+ "comme baissier si la séane suivante clôture à un plus bat niveau." ;
 	}
 
 	@Override
