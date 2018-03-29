@@ -4,12 +4,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -18,7 +24,7 @@ import javax.swing.event.ChangeListener;
 import coinAssistant.core.BinanceConnector;
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
-public class PaneChart extends JPanel implements ChangeListener,MouseMotionListener{
+public class PaneChart extends JPanel implements ChangeListener,MouseMotionListener,MouseListener{
 	
 	int width;
 	int height;
@@ -30,6 +36,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	private int nbPatternVisible=50;
 	private List<PatternListener> listeners;
 	
+	private int memorySlider=-1;
 	/**
 	 *  crée le JPanel affichant le graphique
 	 * @param w		largeur du panel à creer
@@ -47,16 +54,18 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		selectionSection.setOpaque(true);
 		selectionSection.setBackground(Color.lightGray);
 		selectionSection.addChangeListener(this);
+		selectionSection.setSnapToTicks(true);
 		this.add(selectionSection);
 		this.setBackground(Color.white);
 		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);	
 		   
 		this.addMouseMotionListener(this);
+		this.addMouseListener(this);
 		//selectionSection.setPaintTrack(false);
-		//selectionSection.setMajorTickSpacing(10);
+		selectionSection.addMouseListener(this);
 		selectionSection.setPaintTicks(true);
 		selectionSection.setPaintLabels(true);
-		selectionSection.setInverted(true);
+		//selectionSection.setOnMouseReleased(MouseEvent e){}
 	}
 	
 	/**
@@ -68,8 +77,10 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
     	    selectionSection.setValue(0);
     	    int interval=BinanceConnector.getIntervalInMin();
     	    selectionSection.setMaximum(dataIn.size()*interval);
-    	    int bigSpan=(int)(interval*(double)(dataIn.size())/10.0);
+    	    int nbSpan=5;
+    	    int bigSpan=(int)(interval*(double)(dataIn.size())/(double)(nbSpan));
     	    selectionSection.setMajorTickSpacing(bigSpan);
+    	    selectionSection.setLabelTable(setLabelForLegend(bigSpan,nbSpan));
     		this.data=dataIn;
     		this.update(this.getGraphics());
     		this.refreshImage();
@@ -123,14 +134,44 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		
 	}
 	
+	private Dictionary<Integer,JLabel> setLabelForLegend(int span, int nbLabel) {
+	    Dictionary<Integer,JLabel> labels=new Hashtable<Integer,JLabel>();
+	    SimpleDateFormat h = new SimpleDateFormat ("hh");
+	    SimpleDateFormat m=new SimpleDateFormat("mm");
+	    Date currentTime = new Date();
+	    
+	    int currentH = Integer.valueOf(h.format(currentTime));
+	    int currentM=Integer.valueOf(m.format(currentTime));
+	    int max=selectionSection.getMaximum();
+	    for(int i=0;i<nbLabel;i++) {
+	        int newH=-1;
+	        int newM=-1;
+	        int nbMinLate=-i*span+max;
+	        System.out.println(nbMinLate);
+	        if(currentM-nbMinLate>=0) {
+	            newH=currentH;
+	            newM=currentM;
+	        }
+	        else {
+	            int nbHour=-1+(currentM-nbMinLate)/60;
+	            newH=currentH+nbHour;
+	            newM=currentM-(nbMinLate+nbHour*60);
+	        }
+	        String s=Integer.toString(newH)+":"+Integer.toString(newM);
+	        labels.put(i*span, new JLabel(s));
+	        
+	    }
+	    return labels;
+	}
+	
 	/**
 	 * change le rendu graphique au mouvement du curseur
 	 * @param e		démarré par curseur
 	 */
 	public void stateChanged(ChangeEvent e) {
 	    if(e.getSource().equals(selectionSection)) {
-	        this.refreshImage();
-	        this.refreshDisplay();
+	        //this.refreshImage();
+	        //this.refreshDisplay();
 	    }
 	    else {
 	        double prop=((JSlider)(e.getSource())).getValue()/100.0;
@@ -141,18 +182,29 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0) {
-			int rank=(int)((double)(e.getX())/(double)(CandleStickChartView.largDivX));
-			if (data.get(rank).getPatterns() != null && data.get(rank).getPatterns().size() > 0)
+		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0 &&e.getX()>CandleStickChartView.largLegend && e.getX()<width) {
+			int rank=(int)((double)(e.getX()-CandleStickChartView.largLegend)/(double)(CandleStickChartView.largDivX));
+			if (data.size()>rank && data.get(rank).getPatterns() != null && data.get(rank).getPatterns().size() > 0)
 			{
 			 	for (PatternListener listener : listeners)
 			 		listener.patternHovered(data.get(rank).getPatterns().getFirst());
-				System.out.println(data.get(rank).getPatterns().getFirst());
+				//System.out.println(data.get(rank).getPatterns().getFirst());
 			}	
 				
 		}
 	}
 	public void mouseDragged(MouseEvent e) {}
+	public void mouseReleased(MouseEvent e) {
+	   if(memorySlider==-1l) {memorySlider=selectionSection.getValue();}
+	   else if(memorySlider!=selectionSection.getValue()) {
+	       this.refreshImage();
+           this.refreshDisplay();
+	   }
+	}
+	public void mousePressed(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 	
 	private LinkedList<Pattern> getPatternsAtRank(ArrayList<CandleStick> data,int rank){
 		LinkedList<Pattern> result=new LinkedList<Pattern>();
