@@ -21,7 +21,8 @@ public abstract class CandleStickChartView {
 	static double vMin=0;
 	static double vMax=0;
 	static int largCandle=0;	
-	static int largLegend=0;
+	static int largLegendY=0;
+	static private boolean rapportYFrozen=false;
 	
 	/**
 	 * crée une image representant les données en entrée, aux dimensions choisies
@@ -49,23 +50,25 @@ public abstract class CandleStickChartView {
 	public static BufferedImage createChart(BufferedImage c, ArrayList<CandleStick> data) {
 		current=c;
 		//dimensionnement adapté à la taille des données: définir l'echelle x
-		largLegend=(int)(0.1*width);
-		width-=largLegend;
+		largLegendY=(int)(0.1*width);
+		width-=largLegendY;
 		largDivX=width/data.size();
 		largCandle=(int)(largDivX*0.45);
-		//on cherche le min/max de la série pour définir l'echelle y
-		vMin=data.get(0).getLow();
-		vMax=data.get(0).getHigh();
-		for(CandleStick candle:data) {
-			if(candle.getLow()<vMin) {vMin=candle.getLow();}
-			if(candle.getHigh()>vMax) {vMax=candle.getHigh();}
+		if(!rapportYFrozen) {//toutes les adaptations de l'echelle aux données, desactivable depuis la fenetre
+			//on cherche le min/max de la série pour définir l'echelle y
+			vMin=data.get(0).getLow();
+			vMax=data.get(0).getHigh();
+			for(CandleStick candle:data) {
+				if(candle.getLow()<vMin) {vMin=candle.getLow();}
+				if(candle.getHigh()>vMax) {vMax=candle.getHigh();}
+			}
+			//on aère en laissant 10% de marge en bas et en haut
+			double gap=vMax-vMin;
+			vMax+=gap*(SIZE_BORDER/100.0);
+			vMin-=gap*(SIZE_BORDER/100.0);
+					
+			rapportY=(double)(height)/(vMax-vMin);
 		}
-		//on aère en laissant 10% de marge en bas et en haut
-		double gap=vMax-vMin;
-		vMax+=gap*(SIZE_BORDER/100.0);
-		vMin-=gap*(SIZE_BORDER/100.0);
-				
-		rapportY=(double)(height)/(vMax-vMin);
 		
 		//showPatternV1(c,data);
 		
@@ -74,7 +77,7 @@ public abstract class CandleStickChartView {
 		for(int i=0;i<data.size();i++) {
 			CandleStick candle=data.get(i);
 			//tracé de la ligne min-max
-			int abscisse=(int)((i+0.5)*largDivX)+largLegend;
+			int abscisse=(int)((i+0.5)*largDivX)+largLegendY;
 			g.setColor(Color.black);
 			g.drawLine(abscisse, mapValueYtoGraph(candle.getLow()), abscisse, mapValueYtoGraph(candle.getHigh()));
 			//barre du haut
@@ -155,7 +158,7 @@ public abstract class CandleStickChartView {
 				else {
 					g.setColor(new Color(255,255,0,175));
 				}
-				g.fillRect(i*largDivX+largLegend, 0, taillePattern*largDivX, height);
+				g.fillRect(i*largDivX+largLegendY, 0, taillePattern*largDivX, height);
 			}
 		}
 		
@@ -183,7 +186,7 @@ public abstract class CandleStickChartView {
 						g.setColor(p.getColor());
 						int rang=firstRangeAvailable(pris[i]);
 						int heightLine=(int)(height*(1.0-rang*0.02));
-						g.drawLine((int)(i+0.10)*(largDivX)+largLegend,heightLine,(int)(i+p.getPatternSize()-0.10)*largDivX+largLegend,heightLine);//0.1 pour espacer les signaux
+						g.drawLine((int)(i+0.10)*(largDivX)+largLegendY,heightLine,(int)(i+p.getPatternSize()-0.10)*largDivX+largLegendY,heightLine);//0.1 pour espacer les signaux
 						for(int j=0;j<p.getPatternSize();j++) {
 							pris[i+j][rang]=true;
 						}
@@ -193,7 +196,11 @@ public abstract class CandleStickChartView {
 		}
 	}
 	
-	
+	/**
+	 * met en valeur les patterns reconnus avec des box sous autour du graph
+	 * @param c			l'image sur laquelle superposer les marques
+	 * @param data		les données associées
+	 */
 	public static void showPatternBox(BufferedImage c,ArrayList<CandleStick> data) {
 		Graphics2D g=(Graphics2D)c.getGraphics();
 		BasicStroke line = new BasicStroke(2.0f);
@@ -217,20 +224,29 @@ public abstract class CandleStickChartView {
 						//on aère un peu le graphe:
 						vMinLocal-=(int)((vMaxLocal-vMinLocal)*0.2);
 						vMaxLocal+=(int)((vMaxLocal-vMinLocal)*0.2);
-						g.drawRect(largDivX*i+largLegend, mapValueYtoGraph(vMaxLocal), largDivX*p.getPatternSize(),(int)((vMaxLocal-vMinLocal)*rapportY));
+						g.drawRect(largDivX*i+largLegendY, mapValueYtoGraph(vMaxLocal), largDivX*p.getPatternSize(),(int)((vMaxLocal-vMinLocal)*rapportY));
 					}
 				}
 			}
 		}
 	}
 	
-	
+	/**
+	 * methode outil pour la methode showPatternLines, donne le premier rang dispo pour l'affichage d'une ligne
+	 * @see showPatternLines
+	 * @param tab : le tableau des disponibilités
+	 * @return  le rang recherché
+	 */
 	private static int firstRangeAvailable(boolean [] tab) {
 		for(int i=0;i<tab.length;i++) {
 			if(!tab[i]) {return i;}
 		}
 		System.out.println("Capacite d'evenements simultanés insuffisante");
 		return -1;
+	}
+	
+	public static void setRapportYFrozen(boolean state) {
+		rapportYFrozen=state;
 	}
 }
 

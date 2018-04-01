@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -62,8 +63,10 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
     private JLabel advice;
     private JLabel binarySetting;
     private JLabel continuousSetting;
-    private JSlider nbPatternOnScreen;
     
+    private JSlider nbPatternOnScreen;
+    private JSlider selectionSection;
+    private JCheckBox freezeRapportY;
     private BinanceConnector _binance;
     private LinkedList<Pattern> _patterns;
     
@@ -177,12 +180,31 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    graphContainer.addListener(this);
 	    
-	    //un peu sale, mais besoin du graphContainer pour ajouter la
+	    //initialisation du slider permettant de choisir le nombre de patterns visibles
 	    nbPatternOnScreen=new JSlider(0,100);
 	    nbPatternOnScreen.setPreferredSize(new Dimension(toRelative(500),toRelative(50)));
 	    nbPatternOnScreen.setMaximumSize(nbPatternOnScreen.getPreferredSize());
 	    nbPatternOnScreen.addChangeListener(graphContainer);
 	    actuatorContainer.add(nbPatternOnScreen);
+	    
+	    //initialisation du slider permettant de choisir la fen�tre temporelle voulue
+	    selectionSection=new JSlider(0,100);
+	    selectionSection.setPreferredSize(new Dimension(toRelative(500),toRelative(100)));
+	    selectionSection.setMaximumSize(selectionSection.getPreferredSize());
+	    selectionSection.addChangeListener(graphContainer);
+	    selectionSection.setPaintTicks(true);
+		selectionSection.setPaintLabels(true);
+		
+		freezeRapportY=new JCheckBox("Bloquer la variation d'echelle",false);
+		freezeRapportY.setPreferredSize(new Dimension(toRelative(500),toRelative(100)));
+		freezeRapportY.setMaximumSize(freezeRapportY.getPreferredSize());
+		freezeRapportY.addItemListener(graphContainer);
+		
+	    actuatorContainer.add(nbPatternOnScreen);
+	    actuatorContainer.add(selectionSection);
+	    actuatorContainer.add(freezeRapportY);
+	    graphContainer.setSliderSelectionSection(selectionSection);
+	    
 	  
 	    mainContainer = new JPanel();
 	    mainContainer.setLayout(new GridBagLayout());
@@ -246,7 +268,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		for (CandleStick candle : data)
 			for (Pattern p : candle.getPatterns())
 				sum += p.getInterpretation();
-		sumIndicator.setText("<html>-Somme des pattern : " + Math.round(sum,) + "</html>");
+		sumIndicator.setText("<html>-Somme des pattern : " + Math.round(sum) + "</html>");
 		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussière" : "Baissière"));
 		advice.setText("Conseil (warning : make your own diligence) : " + (sum > 0 ? "Achat" : "Vente"));
 		this.graphContainer.setData(data);
