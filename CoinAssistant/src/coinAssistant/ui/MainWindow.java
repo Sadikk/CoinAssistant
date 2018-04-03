@@ -188,14 +188,14 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    
 	    //initialisation du slider permettant de choisir le nombre de patterns visibles
 	    nbPatternOnScreen=new JSlider(0,100);
-	    nbPatternOnScreen.setPreferredSize(new Dimension(toRelative(500),toRelative(50)));
+	    nbPatternOnScreen.setPreferredSize(new Dimension(toRelative(700),toRelative(50)));
 	    nbPatternOnScreen.setMaximumSize(nbPatternOnScreen.getPreferredSize());
 	    nbPatternOnScreen.addChangeListener(graphContainer);
 	    actuatorContainer.add(nbPatternOnScreen);
 	    
 	    //initialisation du slider permettant de choisir la fen�tre temporelle voulue
 	    selectionSection=new JSlider(0,100);
-	    selectionSection.setPreferredSize(new Dimension(toRelative(500),toRelative(100)));
+	    selectionSection.setPreferredSize(new Dimension(toRelative(700),toRelative(100)));
 	    selectionSection.setMaximumSize(selectionSection.getPreferredSize());
 	    selectionSection.addChangeListener(graphContainer);
 	    selectionSection.setPaintTicks(true);
@@ -313,7 +313,9 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	
 	public void loadFirstPair()
 	{
-		displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("ETHBTC", null)));
+		//symbolBox.fireItemStateChanged(new ItemEvent(symbolBox,0,"GTOBTC",0));
+		displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("GTOBTC", null)));
+		graphContainer.refreshDisplay();
 	}
 	
 

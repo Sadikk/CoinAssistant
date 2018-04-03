@@ -38,7 +38,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	private int nbPatternVisible=50;
 	private List<PatternListener> listeners;
 	
-	private int memorySlider=-1;
+	private long timeEvent=0;
 	/**
 	 *  crée le JPanel affichant le graphique
 	 * @param w		largeur du panel à creer
@@ -169,16 +169,19 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @param e		démarré par curseur
 	 */
 	public void stateChanged(ChangeEvent e) {
-	    if(e.getSource().equals(selectionSection)) {
-	        this.refreshImage();
-	        this.refreshDisplay();
-	    }
-	    else {
-	        double prop=((JSlider)(e.getSource())).getValue()/100.0;
-	        this.setNumberVisible(prop);
-	        this.refreshImage();
-            this.refreshDisplay();
-	    }
+		if(System.currentTimeMillis()-timeEvent>100) {
+			timeEvent=System.currentTimeMillis();
+		    if(e.getSource().equals(selectionSection)) {
+		        this.refreshImage();
+		        this.refreshDisplay();
+		    }
+		    else {
+		        double prop=((JSlider)(e.getSource())).getValue()/100.0;
+		        this.setNumberVisible(prop);
+		        this.refreshImage();
+	            this.refreshDisplay();
+		    }
+		}
 	}
 	public void itemStateChanged(ItemEvent e) {
 		if(e.getStateChange()==ItemEvent.SELECTED) {
@@ -188,7 +191,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 			CandleStickChartView.setRapportYFrozen(false);
 		}
 		this.refreshImage();
-        this.refreshDisplay();
+	    this.refreshDisplay();
 		
 	}
 	public void mouseMoved(MouseEvent e) {
