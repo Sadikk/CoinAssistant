@@ -1,18 +1,22 @@
 package coinAssistant.ui;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -26,6 +30,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
+
+import com.alee.laf.WebLookAndFeel;
 
 import coinAssistant.core.BinanceConnector;
 import coinAssistant.core.CandleStick;
@@ -57,12 +64,11 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
     private JLabel lengthPattern;
     private JLabel patternThumb;
     private JLabel explanationInterpretation;
-    private JLabel conclusion;
     private JLabel sumIndicator;
     private JLabel globalConclusion;
-    private JLabel advice;
     private JLabel binarySetting;
     private JLabel continuousSetting;
+    private JComboBox symbolBox;
     
     private JSlider nbPatternOnScreen;
     private JSlider selectionSection;
@@ -78,12 +84,10 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		this.sizeY = (int)(sizeX/((double)(sizeXinit)/(sizeYinit)));
 		this.ratio=(double)(sizeX)/(double)(sizeXinit);
 	    
-		
+		Font font = new Font("Calibri", Font.PLAIN, 20);
 	    setSize(sizeX,sizeY);
 	    setResizable(false);
 	    setLocation(toRelative(100),toRelative(25));
-	    //setMinimumSize(new Dimension(1668, 947));
-	    //setMaximumSize(new Dimension(1668, 947));
 	    _binance = new BinanceConnector();
 	    _patterns = new LinkedList<Pattern>();
 	    Class[] classes;
@@ -120,9 +124,12 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    descriptionContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300))); 
 	    descriptionContainer.setBorder(BorderFactory.createTitledBorder("Description du pattern selectionne"));
 	    
-	    patternName = new JLabel("<html>-Nom du pattern</html>");        
-	    patternDescription = new JLabel("<html>-Description du pattern</html>");        
-	    lengthPattern = new JLabel("<html>-Longueur du pattern</html>");        
+	    patternName = new JLabel("<html>Nom du pattern</html>");   
+	    patternName.setFont(font);
+	    patternDescription = new JLabel("<html>Description du pattern</html>");   
+	    patternDescription.setFont(font);
+	    lengthPattern = new JLabel("<html>Longueur du pattern</html>");        
+	    lengthPattern.setFont(font);
 	    patternThumb = new JLabel();        
 	    
 	    descriptionContainer.add(patternName);
@@ -135,23 +142,22 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    interpretationContainer = Box.createVerticalBox();
 	    interpretationContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300))); 
 	    interpretationContainer.setBorder(BorderFactory.createTitledBorder("Interpretation du pattern"));
-	    explanationInterpretation = new JLabel("<html>-explication de l'interpretation du pattern selectionne ou du dernier pattern</html>");  
-	    conclusion = new JLabel("<html>-conclusion sur la tendance soupconnee</html>");        
+	    explanationInterpretation = new JLabel("<html>Interpretation</html>"); 
+	    explanationInterpretation.setFont(font);
 	    
 	    interpretationContainer.add(explanationInterpretation);
-	    interpretationContainer.add(conclusion);
 	    
 	    
 	    trendContainer = Box.createVerticalBox();
 	    trendContainer.setPreferredSize(new Dimension(toRelative(500), toRelative(300)));
 	    trendContainer.setBorder(BorderFactory.createTitledBorder("Tendance Globale"));
-	    sumIndicator = new JLabel("<html>-Somme des pattern : </html>");        
-	    globalConclusion = new JLabel("<html>-conclusion sur la tendance globale</html>");        
-	    advice = new JLabel("<html>-conseil a l'achat ou a la vente</html>");        
+	    sumIndicator = new JLabel("<html>Somme des pattern : </html>");        
+	    sumIndicator.setFont(font);
+	    globalConclusion = new JLabel("<html>conclusion sur la tendance globale</html>"); 
+	    globalConclusion.setFont(font);
 	    
 	    trendContainer.add(sumIndicator);
-	    trendContainer.add(globalConclusion);
-	    trendContainer.add(advice);    
+	    trendContainer.add(globalConclusion);   
 	    
 	    
 	    actuatorContainer = Box.createVerticalBox();
@@ -160,7 +166,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    
 
 	    final DefaultComboBoxModel model = new DefaultComboBoxModel(_binance.getSymbols().toArray());
-	    JComboBox symbolBox = new JComboBox(model);
+	    symbolBox = new JComboBox(model);
 	    symbolBox.setPreferredSize(new Dimension(toRelative(200), toRelative(50)));
 	    symbolBox.setMaximumSize(new Dimension(toRelative(200), toRelative(50)));
 	    symbolBox.addItemListener((ItemListener) this);
@@ -168,7 +174,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    symbolBox.revalidate();
 	    
 	    binarySetting= new JLabel("<html>Paire de cryptomonnaies a analyser : </html>");        
-	    continuousSetting = new JLabel("<html>-reglage continu : taille de l'intervalle de temps considere etc</html>");        
+	    continuousSetting = new JLabel("<html>Zoom (echelle X)</html>");        
 	    
 	    actuatorContainer.add(binarySetting);
 	    actuatorContainer.add(symbolBox);
@@ -187,7 +193,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    nbPatternOnScreen.addChangeListener(graphContainer);
 	    actuatorContainer.add(nbPatternOnScreen);
 	    
-	    //initialisation du slider permettant de choisir la fen�tre temporelle voulue
+	    //initialisation du slider permettant de choisir la fen�tre temporelle voulue
 	    selectionSection=new JSlider(0,100);
 	    selectionSection.setPreferredSize(new Dimension(toRelative(500),toRelative(100)));
 	    selectionSection.setMaximumSize(selectionSection.getPreferredSize());
@@ -268,9 +274,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		for (CandleStick candle : data)
 			for (Pattern p : candle.getPatterns())
 				sum += p.getInterpretation();
-		sumIndicator.setText("<html>-Somme des pattern : " + Math.round(sum) + "</html>");
+		sumIndicator.setText("<html>Somme des pattern : " + Math.round(sum) + "</html>");
 		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussière" : "Baissière"));
-		advice.setText("Conseil (warning : make your own diligence) : " + (sum > 0 ? "Achat" : "Vente"));
 		this.graphContainer.setData(data);
 	}
 	
@@ -281,6 +286,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
        }
     }      
 	
+	
 	/* *  * 
 	 * @see coinAssistant.ui.PatternListener#patternHovered(coinAssistant.core.Pattern)
 	 */
@@ -289,10 +295,11 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		patternName.setText("<html> Nom : " + pattern.getName() + "</html>");
 		lengthPattern.setText("<html> Taille : " + pattern.getPatternSize() + "</html>");
 		patternDescription.setText("<html> Description : " + pattern.getDescription() + "</html>");
+		explanationInterpretation.setText("<html> Explication : " + pattern.getInterpretationText() + "</html>");
+		
 		try {
-			//System.out.println(pattern.getClass().getSimpleName()); 
 			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
-			patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(500), toRelative(400), Image.SCALE_DEFAULT)));
+			patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
 		} catch (IOException e) {
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
@@ -304,29 +311,25 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		}
 	}
 	
+	public void loadFirstPair()
+	{
+		displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("ETHBTC", null)));
+	}
+	
 
 	public static void main(String[] args) { 
-		MainWindow mW = new MainWindow();
-		System.out.println(mW.getSize());
-		//Binance connection test : ok
-		/*BinanceConnector connector = new BinanceConnector();
-		mW.displayData(new ArrayList<CandleStick>(connector.getCandlesticks("")));*/
 		
-		/*try {
-			Class[] classes = ReflectionHelper.getClasses("coinAssistant.core.candlesticks");
-			//need to add
-			//ReflectionHelper.getClasses("coinAssistant.core.charts.ascending");
-			//ReflectionHelper.getClasses("coinAssistant.core.charts.descending");
-			for (Class c : classes)
-				if (Pattern.class.isAssignableFrom(c)) //pattern = superclass
-					System.out.println(c.getName());
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+        SwingUtilities.invokeLater ( new Runnable ()
+        {
+            public void run ()
+            {
+                // Install WebLaF as application L&F
+                WebLookAndFeel.install ();
+                MainWindow mW = new MainWindow();
+                mW.loadFirstPair();
+        		System.out.println(mW.getSize());
+            }
+        } );
 	}
 	
 	

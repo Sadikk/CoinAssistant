@@ -1,10 +1,10 @@
-#Tue Mar 13 13:28:42 CET 2018
-connection.arguments=
-connection.jvm.arguments=
 build.commands=org.eclipse.jdt.core.javabuilder
+connection.arguments=
+connection.gradle.distribution=GRADLE_DISTRIBUTION(WRAPPER)
+connection.java.home=C\:\\Program Files (x86)\\Java\\jdk1.8.0_131
+connection.jvm.arguments=
 connection.project.dir=
-natures=org.eclipse.jdt.core.javanature
-eclipse.preferences.version=1
-connection.java.home=null
 derived.resources=.gradle,build
+eclipse.preferences.version=1
+natures=org.eclipse.jdt.core.javanature
 project.path=\:

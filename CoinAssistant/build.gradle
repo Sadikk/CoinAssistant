@@ -9,12 +9,14 @@ repositories {
 
 dependencies {
     compile group: 'com.webcerebrium', name: 'binance-api', version: '1.0.9'
+    compile files('weblaf-complete-1.28.jar')
 }
+
 
 sourceSets {
     main {
         java {
-            srcDirs = ['src/']
+            srcDirs = ['src/', 'resources/']
         }
     }
 }
