@@ -83,7 +83,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
     		this.data=dataIn;
     		this.update(this.getGraphics());
     		this.refreshImage();
-    		this.refreshDisplay();
+    		repaint();
 	    }
 		
 		//stateChanged(new ChangeEvent(selectionSection));
@@ -122,16 +122,16 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	    }
 	}
 	
-	/**
-	 * utilise l'image raffraichie pour le rendu graphique
-	 */
-	public void refreshDisplay() {
-		Graphics g=this.getGraphics();
-		g.setColor(Color.white);
-		g.fillRect(0, 0, width, height);
-		g.drawImage(chart, 0, 0, width,ySlider,null);
-		
-	}
+	
+	@Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (chart != null) {
+        	g.setColor(Color.white);
+    		g.fillRect(0, 0, width, height);
+    		g.drawImage(chart, 0, 0,null);
+        }
+    }
 	
 	private Dictionary<Integer,JLabel> setLabelForLegend(int span, int nbLabel) {
 	    Dictionary<Integer,JLabel> labels=new Hashtable<Integer,JLabel>();
@@ -173,13 +173,13 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 			timeEvent=System.currentTimeMillis();
 		    if(e.getSource().equals(selectionSection)) {
 		        this.refreshImage();
-		        this.refreshDisplay();
+		        repaint();
 		    }
 		    else {
 		        double prop=((JSlider)(e.getSource())).getValue()/100.0;
 		        this.setNumberVisible(prop);
 		        this.refreshImage();
-	            this.refreshDisplay();
+	            repaint();
 		    }
 		}
 	}
@@ -191,7 +191,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 			CandleStickChartView.setRapportYFrozen(false);
 		}
 		this.refreshImage();
-	    this.refreshDisplay();
+	    repaint();
 		
 	}
 	public void mouseMoved(MouseEvent e) {
@@ -207,6 +207,14 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		}
 	}
 	public void mouseDragged(MouseEvent e) {}
+	
+	@Override
+    public Dimension getPreferredSize() {
+        if (isPreferredSizeSet()) {
+            return super.getPreferredSize();
+        }
+        return new Dimension(width, height);
+    }
 	
 	private LinkedList<Pattern> getPatternsAtRank(ArrayList<CandleStick> data,int rank){
 		LinkedList<Pattern> result=new LinkedList<Pattern>();

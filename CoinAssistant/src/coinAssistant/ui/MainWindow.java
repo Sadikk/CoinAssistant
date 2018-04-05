@@ -318,6 +318,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		//displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("GTOBTC", null)));
 		//graphContainer.refreshDisplay();
 		symbolBox.setSelectedItem("ETHBTC");
+		//graphContainer.revalidate();
+		//graphContainer.repaint();
 		//graphContainer.refreshDisplay();
 	}
 	
