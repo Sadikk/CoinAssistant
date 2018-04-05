@@ -180,8 +180,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    actuatorContainer.add(symbolBox);
 	    actuatorContainer.add(continuousSetting);
 	       
-	    graphContainer = new PaneChart(toRelative(1140), toRelative(600));
-	    graphContainer.setPreferredSize(new Dimension(toRelative(1140),toRelative(600)));
+	    graphContainer = new PaneChart(toRelative(1200), toRelative(600));
+	    graphContainer.setPreferredSize(new Dimension(toRelative(1200),toRelative(600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    graphContainer.addListener(this);
@@ -191,6 +191,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    nbPatternOnScreen.setPreferredSize(new Dimension(toRelative(700),toRelative(50)));
 	    nbPatternOnScreen.setMaximumSize(nbPatternOnScreen.getPreferredSize());
 	    nbPatternOnScreen.addChangeListener(graphContainer);
+	    nbPatternOnScreen.setInverted(true);
 	    actuatorContainer.add(nbPatternOnScreen);
 	    
 	    //initialisation du slider permettant de choisir la fenï¿½tre temporelle voulue
@@ -277,6 +278,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		sumIndicator.setText("<html>Somme des pattern : " + Math.round(sum) + "</html>");
 		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussiere" : "Baissiere"));
 		this.graphContainer.setData(data);
+		//on fait commencer le slider à la bonne place
 	}
 	
 	public void itemStateChanged(ItemEvent event) {

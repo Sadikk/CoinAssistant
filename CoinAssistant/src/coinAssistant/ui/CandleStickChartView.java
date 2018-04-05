@@ -16,7 +16,7 @@ public abstract class CandleStickChartView {
 	
 	//variables pour le map des valeurs:
 	static final double SIZE_BORDER=10.0; //en %
-	static int largDivX=0;
+	static double largDivX=0;
 	static double rapportY=0;  
 	static double vMin=0;
 	static double vMax=0;
@@ -52,7 +52,7 @@ public abstract class CandleStickChartView {
 		//dimensionnement adapté à la taille des données: définir l'echelle x
 		largLegendY=(int)(0.1*width);
 		width-=largLegendY;
-		largDivX=width/data.size();
+		largDivX=(double)(width)/(double)(data.size());
 		largCandle=(int)(largDivX*0.45);
 		if(!rapportYFrozen) {//toutes les adaptations de l'echelle aux données, desactivable depuis la fenetre
 			//on cherche le min/max de la série pour définir l'echelle y
@@ -158,7 +158,7 @@ public abstract class CandleStickChartView {
 				else {
 					g.setColor(new Color(255,255,0,175));
 				}
-				g.fillRect(i*largDivX+largLegendY, 0, taillePattern*largDivX, height);
+				g.fillRect((int)(i*largDivX)+largLegendY, 0, (int)(taillePattern*largDivX), height);
 			}
 		}
 		
@@ -186,7 +186,7 @@ public abstract class CandleStickChartView {
 						g.setColor(p.getColor());
 						int rang=firstRangeAvailable(pris[i]);
 						int heightLine=(int)(height*(1.0-rang*0.02));
-						g.drawLine((int)(i+0.10)*(largDivX)+largLegendY,heightLine,(int)(i+p.getPatternSize()-0.10)*largDivX+largLegendY,heightLine);//0.1 pour espacer les signaux
+						g.drawLine((int)((i+0.10)*(largDivX))+largLegendY,heightLine,(int)((i+p.getPatternSize()-0.10)*largDivX)+largLegendY,heightLine);//0.1 pour espacer les signaux
 						for(int j=0;j<p.getPatternSize();j++) {
 							pris[i+j][rang]=true;
 						}
@@ -224,7 +224,7 @@ public abstract class CandleStickChartView {
 						//on aère un peu le graphe:
 						vMinLocal-=(int)((vMaxLocal-vMinLocal)*0.2);
 						vMaxLocal+=(int)((vMaxLocal-vMinLocal)*0.2);
-						g.drawRect(largDivX*i+largLegendY, mapValueYtoGraph(vMaxLocal), largDivX*p.getPatternSize(),(int)((vMaxLocal-vMinLocal)*rapportY));
+						g.drawRect((int)(largDivX*i)+largLegendY, mapValueYtoGraph(vMaxLocal), (int)(largDivX*p.getPatternSize()),(int)((vMaxLocal-vMinLocal)*rapportY));
 					}
 				}
 			}

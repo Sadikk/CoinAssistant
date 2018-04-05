@@ -42,7 +42,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	
 	
 	
-	private int rankCurrent=0;
+	private int firstRankDisplayed=0;
 	/**
 	 *  crée le JPanel affichant le graphique
 	 * @param w		largeur du panel à creer
@@ -84,6 +84,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
     	    int bigSpan=(int)(interval*(double)(dataIn.size())/(double)(nbSpan));
     	    selectionSection.setMajorTickSpacing(bigSpan);
     	    selectionSection.setLabelTable(setLabelForLegend(bigSpan,nbSpan));
+    	    selectionSection.setValue(selectionSection.getMaximum()-10);
     		this.data=dataIn;
     		this.update(this.getGraphics());
     		this.refreshImage();
@@ -119,7 +120,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 			int etatSlider=selectionSection.getValue();
 			int rangeSlider=selectionSection.getMaximum()-selectionSection.getMinimum();
 			int startIndice=(int)((data.size()-nbPatternVisible)*((double)(etatSlider)/(double)(rangeSlider)));
-						
+			firstRankDisplayed=startIndice;
 			ArrayList<CandleStick> listToDisplay=new ArrayList<CandleStick>(data.subList(startIndice,startIndice+nbPatternVisible));
 			this.chart=CandleStickChartView.createChart(listToDisplay,width,ySlider);
 		}
@@ -200,9 +201,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	}
 	public void mouseMoved(MouseEvent e) {
 		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0 &&e.getX()>CandleStickChartView.largLegendY && e.getX()<width) {
-			int rank=(int)((double)(e.getX()-CandleStickChartView.largLegendY)/(double)(CandleStickChartView.largDivX));
-			rankCurrent=rank;
-			System.out.println(rank);
+			int rank=firstRankDisplayed+(int)((double)(e.getX()-CandleStickChartView.largLegendY)/(double)(CandleStickChartView.largDivX));
 			if (data.size()>rank)
 			{
 			 	for (PatternListener listener : listeners)
