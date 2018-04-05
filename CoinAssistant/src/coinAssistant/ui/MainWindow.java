@@ -84,7 +84,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		this.sizeY = (int)(sizeX/((double)(sizeXinit)/(sizeYinit)));
 		this.ratio=(double)(sizeX)/(double)(sizeXinit);
 	    
-		Font font = new Font("Calibri", Font.PLAIN, 20);
+		Font font = new Font("Calibri", Font.PLAIN, toRelative(18));
 	    setSize(sizeX,sizeY);
 	    setResizable(false);
 	    setLocation(toRelative(100),toRelative(25));
