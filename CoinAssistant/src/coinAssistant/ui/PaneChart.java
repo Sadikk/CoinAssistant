@@ -197,10 +197,10 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0 &&e.getX()>CandleStickChartView.largLegendY && e.getX()<width) {
 			int rank=(int)((double)(e.getX()-CandleStickChartView.largLegendY)/(double)(CandleStickChartView.largDivX));
-			if (data.size()>rank && data.get(rank).getPatterns() != null && data.get(rank).getPatterns().size() > 0)
+			if (data.size()>rank)
 			{
 			 	for (PatternListener listener : listeners)
-			 		listener.patternHovered(data.get(rank).getPatterns().getFirst());
+			 		listener.patternHovered(data.get(rank).getPatterns() == null ? null : data.get(rank).getPatterns().getFirst());
 				//System.out.println(data.get(rank).getPatterns().getFirst());
 			}	
 				

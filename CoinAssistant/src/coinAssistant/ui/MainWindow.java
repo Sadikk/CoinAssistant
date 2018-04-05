@@ -292,30 +292,27 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	 */
 	public void patternHovered(Pattern pattern)
 	{
-		patternName.setText("<html> Nom : " + pattern.getName() + "</html>");
-		lengthPattern.setText("<html> Taille : " + pattern.getPatternSize() + "</html>");
-		patternDescription.setText("<html> Description : " + pattern.getDescription() + "</html>");
-		explanationInterpretation.setText("<html> Explication : " + pattern.getInterpretationText() + "</html>");
+		patternName.setText("<html> Nom : " + pattern == null ? " - " : pattern.getName() + "</html>");
+		lengthPattern.setText("<html> Taille : " + pattern == null ? " - " : pattern.getPatternSize() + "</html>");
+		patternDescription.setText("<html> Description : " + pattern == null ? " - " :  pattern.getDescription() + "</html>");
+		explanationInterpretation.setText("<html> Explication : " +pattern == null ? " - " :  pattern.getInterpretationText() + "</html>");
+		
 		
 		try {
 			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
 			patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
 		} catch (IOException e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			String exception = sw.toString();
-			JOptionPane.showMessageDialog(this, 
-                    "Une erreur est survenue lors de l'affichage d'une image de pattern. Error : " + e.getMessage() + "-- Stacktrace :" + exception, 
-                    "Erreur", 
-                    JOptionPane.ERROR_MESSAGE);
+			
 		}
 	}
 	
 	public void loadFirstPair()
 	{
 		//symbolBox.fireItemStateChanged(new ItemEvent(symbolBox,0,"GTOBTC",0));
-		displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("GTOBTC", null)));
-		graphContainer.refreshDisplay();
+		//displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("GTOBTC", null)));
+		//graphContainer.refreshDisplay();
+		symbolBox.setSelectedItem("ETHBTC");
+		//graphContainer.refreshDisplay();
 	}
 	
 
@@ -329,7 +326,6 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
                 WebLookAndFeel.install ();
                 MainWindow mW = new MainWindow();
                 mW.loadFirstPair();
-        		System.out.println(mW.getSize());
             }
         } );
 	}
