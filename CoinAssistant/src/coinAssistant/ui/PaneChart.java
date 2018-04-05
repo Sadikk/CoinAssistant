@@ -39,6 +39,10 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	private List<PatternListener> listeners;
 	
 	private long timeEvent=0;
+	
+	
+	
+	private int rankCurrent=0;
 	/**
 	 *  crée le JPanel affichant le graphique
 	 * @param w		largeur du panel à creer
@@ -197,6 +201,8 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	public void mouseMoved(MouseEvent e) {
 		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0 &&e.getX()>CandleStickChartView.largLegendY && e.getX()<width) {
 			int rank=(int)((double)(e.getX()-CandleStickChartView.largLegendY)/(double)(CandleStickChartView.largDivX));
+			rankCurrent=rank;
+			System.out.println(rank);
 			if (data.size()>rank)
 			{
 			 	for (PatternListener listener : listeners)
