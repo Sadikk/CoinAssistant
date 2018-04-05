@@ -200,7 +200,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 			if (data.size()>rank)
 			{
 			 	for (PatternListener listener : listeners)
-			 		listener.patternHovered(data.get(rank).getPatterns() == null ? null : data.get(rank).getPatterns().getFirst());
+			 		listener.patternHovered(data.get(rank).getPatterns().size() == 0 ? null : data.get(rank).getPatterns().getFirst());
 				//System.out.println(data.get(rank).getPatterns().getFirst());
 			}	
 				

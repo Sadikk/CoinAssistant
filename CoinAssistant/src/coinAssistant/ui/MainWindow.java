@@ -84,7 +84,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		this.sizeY = (int)(sizeX/((double)(sizeXinit)/(sizeYinit)));
 		this.ratio=(double)(sizeX)/(double)(sizeXinit);
 	    
-		Font font = new Font("Calibri", Font.PLAIN, toRelative(18));
+		Font font = new Font("Calibri", Font.PLAIN, toRelative(20));
 	    setSize(sizeX,sizeY);
 	    setResizable(false);
 	    setLocation(toRelative(100),toRelative(25));
@@ -275,7 +275,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 			for (Pattern p : candle.getPatterns())
 				sum += p.getInterpretation();
 		sumIndicator.setText("<html>Somme des pattern : " + Math.round(sum) + "</html>");
-		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussière" : "Baissière"));
+		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussiere" : "Baissiere"));
 		this.graphContainer.setData(data);
 	}
 	
@@ -292,18 +292,24 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	 */
 	public void patternHovered(Pattern pattern)
 	{
-		patternName.setText("<html> Nom : " + pattern == null ? " - " : pattern.getName() + "</html>");
-		lengthPattern.setText("<html> Taille : " + pattern == null ? " - " : pattern.getPatternSize() + "</html>");
-		patternDescription.setText("<html> Description : " + pattern == null ? " - " :  pattern.getDescription() + "</html>");
-		explanationInterpretation.setText("<html> Explication : " +pattern == null ? " - " :  pattern.getInterpretationText() + "</html>");
+		patternName.setText("<html> Nom : " + (pattern == null ? " - " : pattern.getName()) + " </html>");
+		lengthPattern.setText("<html> Taille : " + (pattern == null ? " - " : pattern.getPatternSize()) + " </html>");
+		patternDescription.setText("<html> Description : " + (pattern == null ? " - " :  pattern.getDescription()) + " </html>");
+		explanationInterpretation.setText("<html> Explication : " + (pattern == null ? " - " :  pattern.getInterpretationText()) + " </html>");
 		
 		
-		try {
-			InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
-			patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
-		} catch (IOException e) {
-			
+		if (pattern== null)
+			patternThumb.setIcon(null);
+		else
+		{
+			try {
+				InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
+				patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
+			} catch (IOException e) {
+				
+			}
 		}
+		
 	}
 	
 	public void loadFirstPair()
