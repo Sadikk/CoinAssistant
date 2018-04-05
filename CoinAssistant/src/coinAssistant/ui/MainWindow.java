@@ -180,8 +180,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    actuatorContainer.add(symbolBox);
 	    actuatorContainer.add(continuousSetting);
 	       
-	    graphContainer = new PaneChart(toRelative(1000), toRelative(600));
-	    graphContainer.setPreferredSize(new Dimension(toRelative(1000),toRelative(600)));
+	    graphContainer = new PaneChart(toRelative(1140), toRelative(600));
+	    graphContainer.setPreferredSize(new Dimension(toRelative(1140),toRelative(600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    graphContainer.addListener(this);
