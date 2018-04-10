@@ -6,29 +6,27 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 
@@ -38,6 +36,7 @@ import coinAssistant.core.BinanceConnector;
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 import coinAssistant.core.ReflectionHelper;
+import coinAssistant.core.TraderSimulator;
 
 public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	
@@ -66,12 +65,15 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
     private JLabel explanationInterpretation;
     private JLabel sumIndicator;
     private JLabel globalConclusion;
+    private JLabel simulationResult;
     private JLabel binarySetting;
     private JLabel continuousSetting;
     private JComboBox symbolBox;
     
+    private TraderSimulator trader;
     private JSlider nbPatternOnScreen;
     private JSlider selectionSection;
+    private JRadioButton box,lines,highlight;
     private JCheckBox freezeRapportY;
     private BinanceConnector _binance;
     private LinkedList<Pattern> _patterns;
@@ -151,10 +153,12 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    sumIndicator.setFont(font);
 	    globalConclusion = new JLabel("<html>conclusion sur la tendance globale</html>"); 
 	    globalConclusion.setFont(font);
+	    simulationResult = new JLabel("<html> gains en suivant les conseils de l'outil : </html>");
+	    simulationResult.setFont(font);
 	    
 	    trendContainer.add(sumIndicator);
 	    trendContainer.add(globalConclusion);   
-	    
+	    trendContainer.add(simulationResult);
 	    
 	    actuatorContainer = Box.createVerticalBox();
 	    actuatorContainer.setPreferredSize(new Dimension(toRelative(650), toRelative(500)));
@@ -176,8 +180,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    actuatorContainer.add(symbolBox);
 	    actuatorContainer.add(continuousSetting);
 	       
-	    graphContainer = new PaneChart(toRelative(1200), toRelative(600));
-	    graphContainer.setPreferredSize(new Dimension(toRelative(1200),toRelative(600)));
+	    graphContainer = new PaneChart(toRelative(1140), toRelative(600));
+	    graphContainer.setPreferredSize(new Dimension(toRelative(1140),toRelative(600)));
 	    graphContainer.setMinimumSize(graphContainer.getPreferredSize());
 	    graphContainer.setBorder(BorderFactory.createTitledBorder("Courbe du cours"));
 	    graphContainer.addListener(this);
@@ -188,9 +192,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    nbPatternOnScreen.setMaximumSize(nbPatternOnScreen.getPreferredSize());
 	    nbPatternOnScreen.addChangeListener(graphContainer);
 	    nbPatternOnScreen.setInverted(true);
-	    actuatorContainer.add(nbPatternOnScreen);
 	    
-	    //initialisation du slider permettant de choisir la fenï¿½tre temporelle voulue
+	    //initialisation du slider permettant de choisir la fenêtre temporelle voulue
 	    selectionSection=new JSlider(0,100);
 	    selectionSection.setPreferredSize(new Dimension(toRelative(700),toRelative(100)));
 	    selectionSection.setMaximumSize(selectionSection.getPreferredSize());
@@ -198,14 +201,41 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    selectionSection.setPaintTicks(true);
 		selectionSection.setPaintLabels(true);
 		
+		//permet de figer les paramêtres d'echelle du chart affiché
 		freezeRapportY=new JCheckBox("Bloquer la variation d'echelle",false);
 		freezeRapportY.setPreferredSize(new Dimension(toRelative(500),toRelative(100)));
 		freezeRapportY.setMaximumSize(freezeRapportY.getPreferredSize());
 		freezeRapportY.addItemListener(graphContainer);
 		
+		//permet de choisir le mode de mise en valeur des patterns
+		JLabel labelRadioButton=new JLabel("mode de mise en valeur des patterns");
+		labelRadioButton.setFont(font);
+		box=new JRadioButton("boites",true);
+		lines=new JRadioButton("lignes");
+		highlight=new JRadioButton("surligné");
+		ButtonGroup bg=new ButtonGroup();
+		bg.add(box);
+		bg.add(lines);
+		bg.add(highlight);
+		//ecouteurs entrainant directement le changement dans la classe cible
+		box.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {CandleStickChartView.typeShowPattern=ShowPatternStyle.BOX;}
+		});
+		lines.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {CandleStickChartView.typeShowPattern=ShowPatternStyle.LINES;}
+		});
+		highlight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {CandleStickChartView.typeShowPattern=ShowPatternStyle.HIGHLIGHT;}
+		});
+		
+		
 	    actuatorContainer.add(nbPatternOnScreen);
 	    actuatorContainer.add(selectionSection);
 	    actuatorContainer.add(freezeRapportY);
+	    actuatorContainer.add(labelRadioButton);
+	    actuatorContainer.add(box);
+	    actuatorContainer.add(lines);
+	    actuatorContainer.add(highlight);
 	    graphContainer.setSliderSelectionSection(selectionSection);
 	    
 	  
@@ -274,7 +304,11 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		sumIndicator.setText("<html>Somme des pattern : " + Math.round(sum) + "</html>");
 		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussiere" : "Baissiere"));
 		this.graphContainer.setData(data);
-		//on fait commencer le slider ï¿½ la bonne place
+		
+		trader=new TraderSimulator(data);
+		double result=trader.simulateOnAll();
+		result=(double)(Math.round(result*100))/100;
+		simulationResult.setText("Gains en suivant les conseils de l'outil :"+ result+"%");
 	}
 	
 	

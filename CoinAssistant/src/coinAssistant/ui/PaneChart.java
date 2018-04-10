@@ -38,7 +38,6 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	private int nbPatternVisible=50;
 	private List<PatternListener> listeners;
 	
-	private long timeEvent=0;
 	
 	
 	
@@ -48,7 +47,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @param w		largeur du panel à creer
 	 * @param h		hauteur du panel à creer
 	 */
-	public PaneChart(int w,int h) {
+	public PaneChart(int w,int h) { 
 		width=w;
 		height=h;
 		this.setPreferredSize(new Dimension(width,height));
@@ -58,7 +57,6 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		ySlider=(int)(height*0.9);
 		this.setBackground(Color.white);
 		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);	
-		   
 		this.addMouseMotionListener(this);
 	}
 	
@@ -98,18 +96,18 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 */
 	private void refreshImage() {
 	    if(data!=null){
-		//donne image finale avec tous les calculs
-		if (data.size()<=nbPatternVisible) {//si le nombre de données ne demande pas d'ajustements
-			this.chart=CandleStickChartView.createChart(data,width,ySlider);
-		}
-		else{
-			int etatSlider=selectionSection.getValue();
-			int rangeSlider=selectionSection.getMaximum()-selectionSection.getMinimum();
-			int startIndice=(int)((data.size()-nbPatternVisible)*((double)(etatSlider)/(double)(rangeSlider)));
-			firstRankDisplayed=startIndice;
-			ArrayList<CandleStick> listToDisplay=new ArrayList<CandleStick>(data.subList(startIndice,startIndice+nbPatternVisible));
-			this.chart=CandleStickChartView.createChart(listToDisplay,width,ySlider);
-		}
+			//donne image finale avec tous les calculs
+			if (data.size()<=nbPatternVisible) {//si le nombre de données ne demande pas d'ajustements
+				this.chart=CandleStickChartView.createChart(data,this.getWidth(),this.getHeight());
+			}
+			else{
+				int etatSlider=selectionSection.getValue();
+				int rangeSlider=selectionSection.getMaximum()-selectionSection.getMinimum();
+				int startIndice=(int)((data.size()-nbPatternVisible)*((double)(etatSlider)/(double)(rangeSlider)));
+				firstRankDisplayed=startIndice;
+				ArrayList<CandleStick> listToDisplay=new ArrayList<CandleStick>(data.subList(startIndice,startIndice+nbPatternVisible));
+				this.chart=CandleStickChartView.createChart(listToDisplay,width,ySlider);
+			}
 	    }
 	}
 	
@@ -120,7 +118,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
         if (chart != null) {
         	g.setColor(Color.white);
     		g.fillRect(0, 0, width, height);
-    		g.drawImage(chart, 0, 0,null);
+    		g.drawImage(chart,0, 0,width,height,null);
         }
     }
 	
@@ -137,7 +135,6 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	        int newH=-1;
 	        int newM=-1;
 	        int nbMinLate=-i*span+max;
-	        System.out.println(nbMinLate);
 	        if(currentM-nbMinLate>=0) {
 	            newH=currentH;
 	            newM=currentM;
@@ -160,18 +157,15 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	 * @param e		démarré par curseur
 	 */
 	public void stateChanged(ChangeEvent e) {
-		if(System.currentTimeMillis()-timeEvent>100) {
-			timeEvent=System.currentTimeMillis();
-		    if(e.getSource().equals(selectionSection)) {
-		        this.refreshImage();
-		        repaint();
-		    }
-		    else {
-		        double prop=((JSlider)(e.getSource())).getValue()/100.0;
-		        this.setNumberVisible(prop);
-		        this.refreshImage();
-	            repaint();
-		    }
+		if(e.getSource().equals(selectionSection)) {
+			this.refreshImage();
+			repaint();
+		}
+		else {
+			double prop=((JSlider)(e.getSource())).getValue()/100.0;
+			this.setNumberVisible(prop);
+			this.refreshImage();
+			repaint();
 		}
 	}
 	public void itemStateChanged(ItemEvent e) {
@@ -211,6 +205,7 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	
 	public void setNumberVisible(double prop) {
 	    if(data!=null) {this.nbPatternVisible=(int)(data.size()*prop);}
+	    if(this.nbPatternVisible==0) {nbPatternVisible=1;}
 	}
 
 	public void setSliderSelectionSection(JSlider slider) {

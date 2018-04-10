@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import coinAssistant.core.CandleStick;
 import coinAssistant.core.Pattern;
 
-public abstract class CandleStickChartView {  
+public abstract class CandleStickChartView { 
 	static BufferedImage current;
 	static int width=500;
 	static int height=width/2; 
@@ -24,6 +24,8 @@ public abstract class CandleStickChartView {
 	static int largLegendY=0;
 	static private boolean rapportYFrozen=false;
 	
+	static ShowPatternStyle typeShowPattern=ShowPatternStyle.BOX;
+	
 	/**
 	 * crée une image representant les données en entrée, aux dimensions choisies
 	 * @param data		données en entrée
@@ -32,12 +34,12 @@ public abstract class CandleStickChartView {
 	 * @return le graphique créé
 	 */
 	public static BufferedImage createChart(ArrayList<CandleStick> data, int w, int h) {
+		width=w;
+		height=h;
 		current=new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
 		Graphics g=current.getGraphics();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
-		width=w;
-		height=h;
 		return createChart(current,data);
 	}
 	
@@ -70,7 +72,7 @@ public abstract class CandleStickChartView {
 			rapportY=(double)(height)/(vMax-vMin);
 		}
 		
-		//showPatternV1(c,data);
+		if(typeShowPattern==ShowPatternStyle.HIGHLIGHT) {showPatternOver(c,data);}
 		
 		//on trace les barres
 		Graphics g=current.getGraphics();
@@ -94,7 +96,8 @@ public abstract class CandleStickChartView {
 			g.setColor(Color.black);
 			g.drawRect(abscisse-largCandle,mapValueYtoGraph(max),largCandle*2,(int)((max-min)*rapportY));
 		}
-		showPatternBox(current,data);
+		if(typeShowPattern==ShowPatternStyle.BOX) {showPatternBox(current,data);}
+		if(typeShowPattern==ShowPatternStyle.LINES) {showPatternLines(current,data);}
 		addLegend(current,rapportY,vMin,vMax);
 		return current;	
 	}
@@ -105,20 +108,19 @@ public abstract class CandleStickChartView {
 	public static void addLegend(BufferedImage c, double rapportY,double vMin,double vMax) {
 		Graphics g=c.getGraphics();
 		final int NB_GRAD=8;
-		double pas=(vMax-vMin)/(double)NB_GRAD;
+		double pas=(vMax-vMin)/(double)(NB_GRAD);
 		int order=calculOrder(vMin);
-		for(int i=0;i<NB_GRAD;i++) {
+		for(int i=1;i<NB_GRAD;i++) {
 			int hBox=c.getHeight()-(int)(rapportY*(i*pas));
 			g.setColor(Color.white);
-			g.fillRect(8, hBox-15, 30, 15);
+			g.fillRect(8, hBox-15, 40, 15);
 			g.setColor(Color.black);
-			g.drawRect(8, hBox-15, 30, 15);
-			double valToDisplay=Math.round((vMin+i*pas)*100.0/Math.pow(10, order))/100.0;
-			//System.out.println(debugToDisplay+" "+Math.pow(10, order)+" "+order+" "+vMin);
+			g.drawRect(8, hBox-15, 40, 15);
+			double valToDisplay=Math.round((vMin+i*pas)*1000.0/Math.pow(10, order))/1000.0;
 			String toDisplay=Double.toString(valToDisplay);
 			g.drawString(toDisplay,10,hBox);
 		}
-		g.drawString("X10^("+order+")",10,20);
+		g.drawString("X10^("+order+")",10,25);
 		
 	}
 	
@@ -181,7 +183,7 @@ public abstract class CandleStickChartView {
 					if(p.getPatternSize()<data.size()-i) {//protège la methode d'input invalides avec pattern reconnus en dehors de la liste
 						g.setColor(p.getColor());
 						int rang=firstRangeAvailable(pris[i]);
-						int heightLine=(int)(height*(1.0-rang*0.02));
+						int heightLine=(int)(height*(0.98-rang*0.02));
 						g.drawLine((int)((i+0.10)*(largDivX))+largLegendY,heightLine,(int)((i+p.getPatternSize()-0.10)*largDivX)+largLegendY,heightLine);//0.1 pour espacer les signaux
 						for(int j=0;j<p.getPatternSize();j++) {
 							pris[i+j][rang]=true;
