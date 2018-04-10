@@ -25,7 +25,7 @@ public class BinanceConnector {
 	 * @param symbol 		paire de currency à analyser
 	 * @param interval		intervalle de temps par chandelier
 	 */
-	public Collection<CandleStick> getCandlesticks(String symbol, BinanceInterval interval){  //todo symbol selection
+	public Collection<CandleStick> getCandlesticks(String symbol, BinanceInterval interval){
 		BinanceSymbol binanceSymbol;
 		if (interval == null)
 			interval = BinanceInterval.FIVE_MIN;

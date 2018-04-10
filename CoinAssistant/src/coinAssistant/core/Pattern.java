@@ -75,5 +75,4 @@ public abstract class Pattern {
 	{
 		return getName() + " : " + getDescription();
 	}
-	///source complémentaire pour les patterns: http://www.humbletraders.com/candlestick-patterns/
 }

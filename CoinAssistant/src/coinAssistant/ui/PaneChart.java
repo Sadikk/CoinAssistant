@@ -56,19 +56,10 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 		listeners = new ArrayList<PatternListener>();
 		selectionSection=new JSlider();
 		ySlider=(int)(height*0.9);
-		/*
-		selectionSection.setBounds((int)(width*0.1),ySlider,(int)(width*0.8),height-ySlider);
-		selectionSection.setOpaque(true);
-		selectionSection.setBackground(Color.lightGray);
-		selectionSection.addChangeListener(this);
-		*/
 		this.setBackground(Color.white);
 		chart=new BufferedImage(ySlider,width,BufferedImage.TYPE_INT_ARGB);	
 		   
 		this.addMouseMotionListener(this);
-		//selectionSection.setPaintTrack(false);
-		
-		//selectionSection.setOnMouseReleased(MouseEvent e){}
 	}
 	
 	/**
@@ -90,11 +81,6 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
     		this.refreshImage();
     		repaint();
 	    }
-		
-		//stateChanged(new ChangeEvent(selectionSection));
-		//selectionSection.revalidate();
-		
-		
 	}
 	
 	/**
@@ -199,14 +185,16 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
 	    repaint();
 		
 	}
+	
+	
 	public void mouseMoved(MouseEvent e) {
+		//lorsqu'on passe la souris sur un pattern, afficher les informations correspondantes
 		if(e.getY()<ySlider && CandleStickChartView.largDivX!=0 &&e.getX()>CandleStickChartView.largLegendY && e.getX()<width) {
 			int rank=firstRankDisplayed+(int)((double)(e.getX()-CandleStickChartView.largLegendY)/(double)(CandleStickChartView.largDivX));
 			if (data.size()>rank)
 			{
 			 	for (PatternListener listener : listeners)
 			 		listener.patternHovered(data.get(rank).getPatterns().size() == 0 ? null : data.get(rank).getPatterns().getFirst());
-				//System.out.println(data.get(rank).getPatterns().getFirst());
 			}	
 				
 		}
@@ -220,21 +208,6 @@ public class PaneChart extends JPanel implements ChangeListener,MouseMotionListe
         }
         return new Dimension(width, height);
     }
-	
-	private LinkedList<Pattern> getPatternsAtRank(ArrayList<CandleStick> data,int rank){
-		LinkedList<Pattern> result=new LinkedList<Pattern>();
-		final int MAX_SIZE_PATTERN=10;//on cherche dans le passé jusqu'à n evenements plus tôt
-		for(int i=rank; (i>rank-MAX_SIZE_PATTERN)&&(i>=0);i--) {//protection i>=0 pour eviter sortie de tableau
-			LinkedList<Pattern> listPatterns= data.get(i).getPatterns();
-			for(int j=0;j<listPatterns.size();j++) {
-				if(listPatterns.get(i).getPatternSize()>(rank-i)) {
-					result.add(listPatterns.get(i));
-				}
-			}
-		}
-		return result;
-		
-	}
 	
 	public void setNumberVisible(double prop) {
 	    if(data!=null) {this.nbPatternVisible=(int)(data.size()*prop);}

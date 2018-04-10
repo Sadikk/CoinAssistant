@@ -80,11 +80,7 @@ public abstract class CandleStickChartView {
 			int abscisse=(int)((i+0.5)*largDivX)+largLegendY;
 			g.setColor(Color.black);
 			g.drawLine(abscisse, mapValueYtoGraph(candle.getLow()), abscisse, mapValueYtoGraph(candle.getHigh()));
-			//barre du haut
-			//g.drawLine(abscisse-largCandle, height-(int)((candle.getHigh()-vMin)*rapportY), abscisse+largCandle, height-(int)((candle.getHigh()-vMin)*rapportY));
-			//barre du bas
-			//g.drawLine(abscisse-largCandle, height-(int)((candle.getLow()-vMin)*rapportY), abscisse+largCandle,height-(int)((candle.getLow()-vMin)*rapportY));
-			
+
 			//tracé des boites
 			
 			//on regarde si motif croissant ou decroissant

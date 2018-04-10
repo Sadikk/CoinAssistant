@@ -101,10 +101,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 						try {
 							_patterns.add((Pattern)c.newInstance());
 						} catch (InstantiationException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (IllegalAccessException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					
@@ -112,10 +110,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 				}
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    
@@ -252,7 +248,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    gbc.gridy = 6;
 	    gbc.gridheight = 4;
 	    gbc.gridwidth = 3;
-	  //  gbc.gridwidth = GridBagConstraints.REMAINDER;
+	  
 	    mainContainer.add(trendContainer, gbc);
 	    System.out.println(System.getProperty("user.dir"));
 	    setContentPane(mainContainer);
@@ -278,10 +274,12 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		sumIndicator.setText("<html>Somme des pattern : " + Math.round(sum) + "</html>");
 		globalConclusion.setText("Tendance globale : " +  (sum > 0 ? "Haussiere" : "Baissiere"));
 		this.graphContainer.setData(data);
-		//on fait commencer le slider à la bonne place
+		//on fait commencer le slider ï¿½ la bonne place
 	}
 	
+	
 	public void itemStateChanged(ItemEvent event) {
+		//lorsqu'une nouvelle cryptomonnaie est selectionnee, on modifie le graphique
        if (event.getStateChange() == ItemEvent.SELECTED) {
           Object item = event.getItem();
           displayData(new ArrayList<CandleStick>(_binance.getCandlesticks(item.toString(), null)));
@@ -306,6 +304,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		{
 			try {
 				InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
+				if (input == null)
+					patternThumb.setIcon(null);
 				patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
 			} catch (IOException e) {
 				
@@ -316,13 +316,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	
 	public void loadFirstPair()
 	{
-		//symbolBox.fireItemStateChanged(new ItemEvent(symbolBox,0,"GTOBTC",0));
-		//displayData(new ArrayList<CandleStick>(_binance.getCandlesticks("GTOBTC", null)));
-		//graphContainer.refreshDisplay();
 		symbolBox.setSelectedItem("ETHBTC");
-		//graphContainer.revalidate();
-		//graphContainer.repaint();
-		//graphContainer.refreshDisplay();
 	}
 	
 
@@ -332,7 +326,6 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
         {
             public void run ()
             {
-                // Install WebLaF as application L&F
                 WebLookAndFeel.install ();
                 MainWindow mW = new MainWindow();
                 mW.loadFirstPair();
