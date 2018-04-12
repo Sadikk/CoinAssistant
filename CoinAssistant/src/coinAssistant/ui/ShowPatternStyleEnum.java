@@ -1,6 +1,6 @@
 package coinAssistant.ui;
 
-public enum ShowPatternStyle {
+public enum ShowPatternStyleEnum {
 	BOX,
 	LINES,
 	HIGHLIGHT;

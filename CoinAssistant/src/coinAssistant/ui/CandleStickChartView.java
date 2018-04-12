@@ -24,7 +24,7 @@ public abstract class CandleStickChartView {
 	static int largLegendY=0;
 	static private boolean rapportYFrozen=false;
 	
-	static ShowPatternStyle typeShowPattern=ShowPatternStyle.BOX;
+	static ShowPatternStyleEnum typeShowPattern=ShowPatternStyleEnum.BOX;
 	
 	/**
 	 * crée une image representant les données en entrée, aux dimensions choisies
@@ -72,7 +72,7 @@ public abstract class CandleStickChartView {
 			rapportY=(double)(height)/(vMax-vMin);
 		}
 		
-		if(typeShowPattern==ShowPatternStyle.HIGHLIGHT) {showPatternOver(c,data);}
+		if(typeShowPattern==ShowPatternStyleEnum.HIGHLIGHT) {showPatternOver(c,data);}
 		
 		//on trace les barres
 		Graphics g=current.getGraphics();
@@ -96,8 +96,8 @@ public abstract class CandleStickChartView {
 			g.setColor(Color.black);
 			g.drawRect(abscisse-largCandle,mapValueYtoGraph(max),largCandle*2,(int)((max-min)*rapportY));
 		}
-		if(typeShowPattern==ShowPatternStyle.BOX) {showPatternBox(current,data);}
-		if(typeShowPattern==ShowPatternStyle.LINES) {showPatternLines(current,data);}
+		if(typeShowPattern==ShowPatternStyleEnum.BOX) {showPatternBox(current,data);}
+		if(typeShowPattern==ShowPatternStyleEnum.LINES) {showPatternLines(current,data);}
 		addLegend(current,rapportY,vMin,vMax);
 		return current;	
 	}

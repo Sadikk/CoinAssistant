@@ -193,7 +193,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    nbPatternOnScreen.addChangeListener(graphContainer);
 	    nbPatternOnScreen.setInverted(true);
 	    
-	    //initialisation du slider permettant de choisir la fenêtre temporelle voulue
+	    //initialisation du slider permettant de choisir la fenï¿½tre temporelle voulue
 	    selectionSection=new JSlider(0,100);
 	    selectionSection.setPreferredSize(new Dimension(toRelative(700),toRelative(100)));
 	    selectionSection.setMaximumSize(selectionSection.getPreferredSize());
@@ -201,7 +201,7 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 	    selectionSection.setPaintTicks(true);
 		selectionSection.setPaintLabels(true);
 		
-		//permet de figer les paramêtres d'echelle du chart affiché
+		//permet de figer les paramï¿½tres d'echelle du chart affichï¿½
 		freezeRapportY=new JCheckBox("Bloquer la variation d'echelle",false);
 		freezeRapportY.setPreferredSize(new Dimension(toRelative(500),toRelative(100)));
 		freezeRapportY.setMaximumSize(freezeRapportY.getPreferredSize());
@@ -212,20 +212,26 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 		labelRadioButton.setFont(font);
 		box=new JRadioButton("boites",true);
 		lines=new JRadioButton("lignes");
-		highlight=new JRadioButton("surligné");
+		highlight=new JRadioButton("surlignï¿½");
 		ButtonGroup bg=new ButtonGroup();
 		bg.add(box);
 		bg.add(lines);
 		bg.add(highlight);
 		//ecouteurs entrainant directement le changement dans la classe cible
 		box.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {CandleStickChartView.typeShowPattern=ShowPatternStyle.BOX;}
+			public void actionPerformed(ActionEvent e) {
+				CandleStickChartView.typeShowPattern=ShowPatternStyleEnum.BOX;
+			}
 		});
 		lines.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {CandleStickChartView.typeShowPattern=ShowPatternStyle.LINES;}
+			public void actionPerformed(ActionEvent e) {
+				CandleStickChartView.typeShowPattern=ShowPatternStyleEnum.LINES;
+			}
 		});
 		highlight.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {CandleStickChartView.typeShowPattern=ShowPatternStyle.HIGHLIGHT;}
+			public void actionPerformed(ActionEvent e) {
+				CandleStickChartView.typeShowPattern=ShowPatternStyleEnum.HIGHLIGHT;
+			}
 		});
 		
 		
@@ -340,7 +346,8 @@ public class MainWindow extends JFrame implements ItemListener, PatternListener{
 				InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(pattern.getClass().getSimpleName() + ".png");
 				if (input == null)
 					patternThumb.setIcon(null);
-				patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
+				else 
+					patternThumb.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(input)).getImage().getScaledInstance(toRelative(300), toRelative(300), Image.SCALE_SMOOTH)));
 			} catch (IOException e) {
 				
 			}
